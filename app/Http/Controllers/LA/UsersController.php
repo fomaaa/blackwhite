@@ -25,7 +25,7 @@ class UsersController extends Controller
 {
 	public $show_action = false;
 	public $view_col = 'name';
-	public $listing_cols = ['id', 'name', 'type'];
+	public $listing_cols = ['id', 'name', 'type', 'is_ban'];
 	
 	public function __construct() {
 		// Field Access of Listing Columns
@@ -143,20 +143,16 @@ class UsersController extends Controller
 				//    $data->data[$i][$j];
 				// }
 			}
+			$output = '';
 			
-			if($this->show_action) {
-				$output = '';
-				if(Module::hasAccess("Users", "edit")) {
-					$output .= '<a href="'.url(config('laraadmin.adminRoute') . '/users/'.$data->data[$i][0].'/edit').'" class="btn btn-warning btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-edit"></i></a>';
-				}
+			if(Auth::user()->type == "SuperAdmin") {
 				
-				if(Module::hasAccess("Users", "delete")) {
-					$output .= Form::open(['route' => [config('laraadmin.adminRoute') . '.users.destroy', $data->data[$i][0]], 'method' => 'delete', 'style'=>'display:inline']);
-					$output .= ' <button class="btn btn-danger btn-xs" type="submit"><i class="fa fa-times"></i></button>';
-					$output .= Form::close();
-				}
-				$data->data[$i][] = (string)$output;
-			}
+				$output .= ' <a href="/admin/drop/'. $data->data[$i][0] .'" class="btn btn-danger btn-xs  act-btn" type="submit"><i class="fa fa-times"></i></a>';
+				
+			} 
+
+			$output .= ' <a href="/admin/ban/'. $data->data[$i][0] .'" class="btn btn-warning btn-xs  act-btn" type="submit"><i class="fa fa-ban"></i></a>';
+			$data->data[$i][] = (string)$output;
 		}
 		$out->setData($data);
 		return $out;

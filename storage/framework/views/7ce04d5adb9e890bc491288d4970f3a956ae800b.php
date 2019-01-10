@@ -31,9 +31,7 @@
 			<?php foreach( $listing_cols as $col ): ?>
 			<th><?php echo e(isset($module->fields[$col]['label']) ? $module->fields[$col]['label'] : ucfirst($col)); ?></th>
 			<?php endforeach; ?>
-			<?php if($show_actions): ?>
 			<th>Actions</th>
-			<?php endif; ?>
 		</tr>
 		</thead>
 		<tbody>

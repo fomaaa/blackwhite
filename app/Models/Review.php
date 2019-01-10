@@ -22,4 +22,22 @@ class Review extends Model
 	protected $guarded = [];
 
 	protected $dates = ['deleted_at'];
+
+	public function images($width = null, $height = null)
+    {
+        $data = json_decode($this->photos);
+        $files    = Upload::whereIn('id', $data)->orderBy('id', 'desc')->get();
+        $result = [];
+
+        foreach ($files as $file) {
+            $url = "/files/{$file->hash}/{$file->name}";
+            if ($width && $height) {
+                $url .= "?w={$width}&h={$height}";
+            }
+
+            $result[] = $url;
+        }
+
+        return $result;
+    }
 }

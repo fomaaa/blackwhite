@@ -27,7 +27,7 @@
                             <label for="phone" class="col-md-4 control-label">Phone</label>
 
                             <div class="col-md-6">
-                                <input id="phone" type="text" class="form-control" name="phone" placeholder="+797100000000">
+                                <input id="phone" type="text" required class="form-control" name="phone" placeholder="+97100000000">
 
                                 <?php if($errors->has('phone')): ?>
                                     <span class="help-block">
@@ -67,7 +67,7 @@
 							</div>
                         </div>
                         <div class="form-group">
-                        	<label for="description" class="col-md-4 control-label">Description</label>
+                        	<label for="description" class="col-md-4 control-label">Review</label>
                         	<div class="col-md-6">
  								<textarea class="form-control" rows="3" id="description" type="text"  name="description"></textarea>
  							</div>
@@ -94,10 +94,10 @@
 
                             <div class="col-md-6">
 		                        <label class="checkbox-inline">
-								  <input type="radio" id="author" class="author" name="author" value="0"> Your name
+								  <input type="radio" id="author" class="author" checked name="author" value="No"> Your name
 								</label>
 								<label class="checkbox-inline">
-								  <input type="radio" id="author" class="author" name="author" value="1"> Anonymously
+								  <input type="radio" id="author" class="author" name="author" value="Yes"> Anonymously
 								</label>
                             </div>
 						</div>
@@ -106,8 +106,9 @@
 								<button  class="btn btn-primary btn-lg btn-success next-tab">Add review</button>
 							</div>
 						</div>
-                        <input type="hidden" name="personal-mark">
-
+                        <input type="hidden" name="personal_mark">
+                        <input type="hidden" name="list" value="black">
+        
                     </form>						
                     </div>
                 </div>
@@ -159,7 +160,17 @@
                     <div class="form-horizontal">
                         <div class="row">
                             <div class="form-group">
-                                <label for="description" class="col-md-4 control-label">Description</label>
+                                <label for="status" class="col-md-4 control-label">Status</label>
+                                <div class="col-md-6">
+                                    <label for="status" class="col-md-4 control-label value">Police</label>
+                                </div>
+                            </div> 
+                        </div>
+                    </div>                                          
+                    <div class="form-horizontal">
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="description" class="col-md-4 control-label">Review</label>
                                 <div class="col-md-6">
                                     <label for="description" class="col-md-4 control-label value"></label>
                                 </div>
@@ -167,52 +178,14 @@
                         </div>
                     </div>                                    
                     <div class="form-horizontal">
-                        <div class="row">
-                            <div class="form-group">
-                                <label for="status" class="col-md-4 control-label">Status</label>
-                                <div class="col-md-6">
-                                    <label for="status" class="col-md-4 control-label value">Police</label>
-                                </div>
-                            </div> 
-                        </div>
-                    </div>                        
-                    <div class="form-horizontal">
-                        <div class="row">
-                            <div class="form-group">
-                                <label for="files" class="col-md-4 control-label">Photos count</label>
-                                <div class="col-md-6">
-                                    <label for="files" class="col-md-4 control-label value"></label>
-                                </div>
-                            </div> 
-                        </div>
-                    </div>                    
-                    <div class="form-horizontal">
-                        <div class="row">
-                            <div class="form-group">
-                                <label for="author" class="col-md-4 control-label">Review</label>
-                                <div class="col-md-6">
-                                    <label for="author" class="col-md-4 control-label value"></label>
-                                </div>
-                            </div> 
-                        </div>
-                    </div>
-                    <div class="form-horizontal">
-                        <div class="row">
-                            <div class="form-group">                        
-                                <label for="description" class="col-md-4 control-label">Personal mark</label>
-                                 <div class="col-md-6">
-                                    <textarea form="addform" class="form-control" rows="3" id="mark" type="text"  name="mark"></textarea>
-                                </div>
-                            </div>
-                        </div>
-                    <div class="form-horizontal">
-                        <div class="row">
-                            <div class=" col-md-6 btn-block">
-                                <button  class="btn btn-primary btn-lg btn-primary prew-tab">Back and Edit</button>
-                                <button type="submit"  class="btn btn-primary btn-lg btn-success submit">Confirm and Add</button>
+                        <div class="form-horizontal">
+                            <div class="row">
+                                <div class=" col-md-6 btn-block">
+                                    <button  class="btn btn-primary btn-lg btn-primary prew-tab">Back and Edit</button>
+                                    <button type="submit"  class="btn btn-primary btn-lg btn-success submit">Confirm and Add</button>
+                                </div>                            
                             </div>                            
-                        </div>                            
-                    </div>
+                        </div>
 
     
                 </div>
@@ -221,5 +194,8 @@
     </div>
 </div>
 <?php $__env->stopSection(); ?>
+
+
+
 
 <?php echo $__env->make('layouts.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

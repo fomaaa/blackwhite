@@ -16,6 +16,17 @@ class Clients
      */
     public function handle($request, Closure $next)
     {
+        if (Auth::guest()) {
+            return abort(404);
+        }
+
+        if (Auth::user()->is_ban) {
+            echo 'contact the administrator';
+            exit();
+        }
+
+
+
         // if (!Auth::user()) {
         //    return redirect()->guest('/login');
         // }

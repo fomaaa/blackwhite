@@ -25,6 +25,8 @@ class Authenticate
             }
         }
 
+        if (Auth::user()->type == "Girl") abort('404');
+
         return $next($request);
     }
 }

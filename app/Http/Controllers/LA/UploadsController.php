@@ -177,12 +177,12 @@ class UploadsController extends Controller
 	
 					// Get public preferences
 					// config("laraadmin.uploads.default_public")
-					$public = Input::get('public');
-					if(isset($public)) {
+					// $public = Input::get('public');
+					// if(isset($public)) {
 						$public = true;
-					} else {
-						$public = false;
-					}
+					// } else {
+					// 	$public = false;
+					// }
 	
 					$upload = Upload::create([
 						"name" => $filename,

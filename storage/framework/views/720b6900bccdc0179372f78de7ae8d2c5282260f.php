@@ -107,8 +107,8 @@
 						<h4>General Info</h4>
 					</div>
 					<div class="panel-body">
-						<?php echo LAFormMaker::display($module, 'status'); ?>
 						<?php echo LAFormMaker::display($module, 'client'); ?>
+						<?php echo LAFormMaker::display($module, 'status'); ?>
 						<?php echo LAFormMaker::display($module, 'photos'); ?>
 						<?php echo LAFormMaker::display($module, 'phone'); ?>
 						<?php echo LAFormMaker::display($module, 'email'); ?>

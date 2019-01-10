@@ -91,4 +91,8 @@ Route::group(['as' => $as, 'middleware' => ['auth', 'permission:ADMIN_PANEL']], 
 	/* ================== Comments ================== */
 	Route::resource(config('laraadmin.adminRoute') . '/comments', 'LA\CommentsController');
 	Route::get(config('laraadmin.adminRoute') . '/comment_dt_ajax', 'LA\CommentsController@dtajax');
+
+	/* ================== Personal_statuses ================== */
+	Route::resource(config('laraadmin.adminRoute') . '/personal_statuses', 'LA\Personal_statusesController');
+	Route::get(config('laraadmin.adminRoute') . '/personal_status_dt_ajax', 'LA\Personal_statusesController@dtajax');
 });

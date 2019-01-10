@@ -108,6 +108,7 @@
 					</div>
 					<div class="panel-body">
 						<?php echo LAFormMaker::display($module, 'phone'); ?>
+						<?php echo LAFormMaker::display($module, 'email'); ?>
 					</div>
 				</div>
 			</div>

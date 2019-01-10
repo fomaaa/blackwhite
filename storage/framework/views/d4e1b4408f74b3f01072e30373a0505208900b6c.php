@@ -14,11 +14,11 @@
                                 <label for="phone" class="col-md-4 control-label">Enter Phone</label>
 
                                 <div class="col-md-4">
-                                    <input id="phone" type="text" class="form-control" min="10" name="phone" placeholder="+797100000000">
-                                    <span class="error">10 number required</span>
+                                    <input id="phone" type="text" class="form-control" min="10" name="phone" placeholder="+97100000000">
+                                    <span class="error">10 numbers required</span>
                                 </div>
                                 <div class="col-md-2">
-                                     <button type="submit"  class="btn  btn-primary ">Check</button>
+                                     <button type="submit"  class="btn check-btn btn-primary ">Check</button>
                                 </div>
                             </div>  
                         </form>
@@ -31,11 +31,11 @@
                                 <label for="phone" class="col-md-4 control-label">Enter Email</label>
 
                                 <div class="col-md-4">
-                                    <input id="email" type="text" class="form-control" name="email" placeholder="client@mail.com">
-                                    <span class="error">valid email required</span>
+                                    <input id="email" type="text" class="form-control" name="email" placeholder="Client email">
+                                    <span class="error">Please enter valid email</span>
                                 </div>
                                 <div class="col-md-2">
-                                     <button type="submit" class="btn  btn-primary ">Check</button>
+                                     <button type="submit" class="btn check-btn btn-primary ">Check</button>
                                 </div>
                             </div>  
                         </form>
@@ -47,7 +47,7 @@
     <div class="row review-block">
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
-                <div class="panel-heading">Reviews</div>
+                <div class="panel-heading">Result</div>
                 <div class="res-container">
                     
                 </div>

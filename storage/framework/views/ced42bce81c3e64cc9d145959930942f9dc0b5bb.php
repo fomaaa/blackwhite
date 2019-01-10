@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
-                <div class="panel-heading">Add client to black list</div>
+                <div class="panel-heading">Add client to white list</div>
 
                 <div class="panel-body" data-tab="1">
                     <div class="row">
@@ -28,7 +28,7 @@
                             <label for="phone" class="col-md-4 control-label">Phone</label>
 
                             <div class="col-md-6">
-                                <input id="phone" type="text" class="form-control" name="phone" placeholder="+797100000000">
+                                <input id="phone" type="text" class="form-control" name="phone" placeholder="+97100000000">
 
                                 <?php if($errors->has('phone')): ?>
                                     <span class="help-block">
@@ -68,7 +68,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="description" class="col-md-4 control-label">Description</label>
+                            <label for="description" class="col-md-4 control-label">Review</label>
                             <div class="col-md-6">
                                 <textarea class="form-control" rows="3" id="description" type="text"  name="description"></textarea>
                             </div>
@@ -78,10 +78,10 @@
 
                             <div class="col-md-6">
                                 <label class="checkbox-inline">
-                                  <input type="radio" id="author" class="author" name="author" value="0"> Your name
+                                  <input type="radio" id="author" class="author" name="author" value="No"> Your name
                                 </label>
                                 <label class="checkbox-inline">
-                                  <input type="radio" id="author" class="author" name="author" value="1"> Anonymously
+                                  <input type="radio" id="author" class="author" name="author" value="Yes"> Anonymously
                                 </label>
                             </div>
                         </div>

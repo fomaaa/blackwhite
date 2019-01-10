@@ -36,17 +36,8 @@ Route::group(['middleware' => ['clients']], function () {
 	//AJAX
 	Route::post('/checkbyphone', 'HomeController@checkByPhone');
 	Route::post('/checkbyemail', 'HomeController@checkByEmail');
+	Route::post('/addcomment', 'HomeController@addComment');
+	Route::post('/editpersonalstatus', 'HomeController@editStatus');
 
 });
 
-
-Route::group(['middleware' => ['clients']], function () {
-	
-
-	// Route::get('search', 'MainController@home');
-
-	// Route::get('models/{id}', 'MainController@models');
-
-	// Route::post('filter', 'MainController@filter');
-
-});

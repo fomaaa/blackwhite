@@ -53,18 +53,25 @@ $(document).ready(function(){
 	$('.show-comments').on('click', function(){
 		var comment_list = $(this).parents('.review-item').find('.comments-list');
 		if (comment_list.is(':visible')) {
-			comment_list.hide();
+			comment_list.hide('fast');
+			$(this).find('.text').text('Show comments');
+			$(this).removeClass('btn-danger');
+			$(this).addClass('btn-success');
+
 		} else {
-			comment_list.show();
+			comment_list.toggle('fast');
+			$(this).find('.text').text('Hide comments');
+			$(this).addClass('btn-danger');
+			$(this).removeClass('btn-success');
 		}
 	})
 
 	$('.add-comment').on('click', function(){
 		var comment_form = $(this).parents('.review-item').find('.new-comment');
 		if (comment_form.is(':visible')) {
-			comment_form.hide();
+			comment_form.hide('fast');
 		} else {
-			comment_form.show();
+			comment_form.toggle('fast');
 		}
 	})
 
@@ -78,16 +85,54 @@ $(document).ready(function(){
 		var val = $(this).val();
 		$('.mark i').text(val);
 	})
+
 	$('.mark-form').on('submit', function(e){
 		e.preventDefault();
 
 		$(this).hide();
 		$('.mark i, .mark span').show();
 
-		// AJAX
+		var val = $(this).find('input').val();
+		var client = $('.cl-id').data('client');
 
+		$.ajax({
+		        type: 'POST',
+		        url: '/editpersonalstatus',
+		        data: {
+		            status: val,
+		            client: client,
+		        },
+		        success: function (response) {
+		        	if (response) {
+		        		console.log(response);
+		        	}
+		        }
+		});
 	})
 
+	$('.new-comment').on('submit', function(e){
+		e.preventDefault();
+		var review_id = $(this).data('review');
+		var comment = $(this).find('[name="comment"]').val();
+		var is_anon = $(this).find('#author:checked').val();
+
+		if (review_id && comment) {
+			$.ajax({
+		        type: 'POST',
+		        url: '/addcomment',
+		        data: {
+		            review_id: review_id,
+		            comment: comment,
+		            is_anon: is_anon,
+		        },
+		        success: function (response) {
+		        	if (response) {
+		        		location.reload();
+		        	}
+		        }
+		    });
+		}
+	})
 
 	$('#checkbyphone').on('submit', function(e){
 		e.preventDefault();
@@ -122,6 +167,8 @@ $(document).ready(function(){
 
 		}
 	});	
+
+	
 	$('#checkbyemail').on('submit', function(e){
 		e.preventDefault();
 		var email = $(this).find('#email').val();

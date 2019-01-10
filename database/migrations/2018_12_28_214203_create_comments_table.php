@@ -20,6 +20,8 @@ class CreateCommentsTable extends Migration
         Module::generate("Comments", 'comments', 'review', 'fa-cube', [
             ["review", "Review", "Dropdown", false, "", 0, 0, true, "@reviews"],
             ["comment", "Comment", "Textarea", false, "", 0, 0, true],
+            ["anon", "Anonymous", "Radio", false, "", 0, 0, true, ["Yes","No"]],
+            ["user", "User", "Dropdown", false, "", 0, 0, true, "@users"],
         ]);
 		
 		/*

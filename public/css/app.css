@@ -25,6 +25,7 @@ body {
 
 .small-photo {
 	margin: 5px;
+	max-width: 100px;
 }
 
 .inform-head {
@@ -38,7 +39,9 @@ body {
 .author {
 	font-size: 15px;
 }
-
+.review {
+	margin-bottom: 20px;
+}
 .reviews-list {
 	margin: 10px;
 }
@@ -109,4 +112,51 @@ body {
 
 .message {
 	border: 1px solid red;
+}
+
+.review-item .thumb {
+	font-size: 30px;
+}
+
+/*.thumb-row {
+	display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}*/
+.big-btn {
+    width: 200px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.btn-black {
+	background-color: black;
+	color: #fff;
+}
+.container-body {
+	min-height: calc(100vh - 50px);
+}
+footer {
+	height: 50px;
+	text-align: center;
+    color: gainsboro;
+    font-size: 15px;
+
+}
+
+@media(max-width: 768px) {
+	.check-btn {
+		margin-top: 10px;
+	}
+	.client-header {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+	.info-btn {
+		margin-bottom: 10px;
+	}
+
+	.big-btn {
+		margin-bottom: 20px;
+	}
 }

@@ -8,6 +8,14 @@ use App\Models\City;
 use App\Models\Client;
 use App\Models\Review;
 use App\Models\Comment;
+use App\Models\Personal_status;
+use App\Models\Status;
+use App\User;
+use App\Models\Upload;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Input;
+
 
 class HomeController extends Controller
 {
@@ -35,17 +43,39 @@ class HomeController extends Controller
     {
         return view('auth/login');
     }
+
     public function check(){
         
         return view('front/check');
     }
+
     public function add() {
 
         return view('front/add');
     }
-    public function clients(request $request) {
+
+    public function editStatus(request $request)
+    {
+        $status = $request->status;
+        $user_id = Auth::user()->id;
+        $client_id = $request->client;
+
+        $res = Personal_status::updateOrCreate([
+            'user' => $user_id,
+            'client' => $client_id,
+        ] , [
+            'status' => $status
+        ] );
+
+
+        return $res;
+    }
+
+    public function clients(request $request) 
+    {
         $client = new Client();
         $client = $client->where('id', $request->id)->get();
+        $data = array();
 
         if (!empty($client[0])) {
             $data['client_id'] = $client[0]->id;
@@ -53,30 +83,70 @@ class HomeController extends Controller
             $data['phone'] = $client[0]->phone;
             $data['email'] = $client[0]->email;
             $data['reviews'] = array();
+            $data['mark'] = Personal_status::where('client',$client[0]->id)->where('user', Auth::user()->id)->first();
+
+            if ($data['mark']) {
+                $data['mark'] = $data['mark']->status;
+            } else {
+                 $data['mark'] = 'You can leave a personal note for this user.';
+            }
 
             $reviews = new Review();
             $data['reviews'] = $reviews->where('client', $client[0]->id)->get();
+            $reviewCount = count($data['reviews']);
+            // dd($data['reviews']);
+            $commentsCount = 0;
             if (!empty($data['reviews'][0])) {
-            $comments = new Comment;
-            foreach($data['reviews'] as $key => $review) {
-                // $data['reviews'][$key]['comments']
-            }
+                $comments = new Comment;
+                $status = new Status;
+                $user = new User;
+                foreach($data['reviews'] as $key => $review) {
+                    // dd($review);
+                    $review->status = $status->where('id', $review->status)->first();
+                    $review->author = $user->where('id', $review->author)->first();
+                    $review->address =  City::where('id', $review->address)->first();
+                    $data['reviews'][$key]['comments'] = $comments->where('review', $review->id)->get();
+                    foreach ($data['reviews'][$key]['comments'] as $index => $comment) {
+                        $data['reviews'][$key]['comments'][$index]->user = User::where('id', $data['reviews'][$key]['comments'][$index]->user)->first()->name;
+                    }
 
+                    $commentsCount+= count($data['reviews'][$key]['comments']);
+                }
             }
 
             
+            $data['commentsCount'] = $commentsCount;
+            $data['reviewCount'] = $reviewCount;
+
+            return view('front/client', ['data' => $data]);
+        } else {
+             return abort(404);
         }
-        dd($data);
-        $data = array();
 
-
-
-        return view('front/client');
 
     }
-    public function black() {
+
+    public function addComment(request $request) 
+    {
+        $review_id = $request->review_id;
+        $comment = $request->comment;
+        $is_anon = $request->is_anon;
+        $is_anon ? $is_anon = "Yes" : $is_anon = 'No';
+        $comment = Comment::create([
+            'review' => $review_id,
+            'comment' => $comment,
+            'anon' => $is_anon, 
+            'user' => Auth::user()->id
+        ]);
+
+
+        return $comment->id;
+    }
+
+    public function black() 
+    {
         $cities = new City();
-        $statuses = new Client_status();
+        $statuses = new Status();
 
        return view('front/black', [
             'cities' => $cities->get(),
@@ -84,9 +154,11 @@ class HomeController extends Controller
         ]);
 
     } 
-    public function white() {
+
+    public function white() 
+    {
         $cities = new City();
-        $statuses = new Client_status();
+        $statuses = new Status();
 
        return view('front/white', [
             'cities' => $cities->get(),
@@ -94,16 +166,127 @@ class HomeController extends Controller
         ]);
     }
 
-    public function whiteAdd(request $request) {
-        dd($request);
+    public function whiteAdd(request $request) 
+    {
+        $phone = $request->phone;
+        $email = $request->email;
+        $address = $request->address;
+        $links = $request->link;
+        $description = $request->description;
+        $author = $request->author;
+        $user_id = Auth::user()->id;
+        // $photos =  $this->uploadFiles($request);
+        $mark = $request->mark;
+
+        $is_client  = Client::where('phone', $phone)->first();
+        // dd($is_client);
+        if ($is_client) {
+            $clientID =  $is_client->id;
+        } else {
+            $is_client = Client::where('email', $email)->first();
+
+            if ($is_client) {
+                $clientID =  $is_client->id;
+            } else {
+                $client = Client::create([
+                    'phone' => $phone,
+                    'email' => $email
+                ]);
+                $clientID = $client->id;
+            }
+        }
+
+        $review = Review::create([
+            'phone' => $phone,
+            'email' => $email,
+            'address' => $address,
+            'links' => $links,
+            'review' => $description,
+            'author' => $user_id,
+            'list' => 'White',
+            'anon' => $author,
+            'client' => $clientID,
+            // 'photos' => $photos
+        ]);
+
+        if ($mark) {
+            Personal_status::updateOrCreate([
+                'user' => $user_id,
+                'client' => $clientID,
+            ] , [
+                'status' => $mark
+            ] );  
+        }
+
+        return redirect('client/' . $clientID);
     }
 
-    public function blackAdd(request $request) {
-        dd($request);
+    public function blackAdd(request $request) 
+    {
+        $phone = $request->phone;
+        $email = $request->email;
+        $address = $request->address;
+        $link = $request->link;
+        $description = $request->description;
+        $status = $request->status;
+        $author = $request->author;
+        $mark = $request->mark;
+        $links = $request->link;
+        $user_id = Auth::user()->id;
+
+        $photos =  $this->uploadFiles($request);
+        $photos ? '' : $photos = "";
+        if ($phone) {
+            $is_client  = Client::where('phone', $phone)->first();
+
+            if (!$is_client) {
+                $is_client  = Client::where('email', $email)->first();
+                //update phone here
+            }
+        } else if ($email) {
+            $is_client  = Client::where('email', $email)->first();
+        }
+
+        if ($is_client) {
+            $clientID =  $is_client->id;
+        } else {
+            $client = Client::create([
+                'phone' => $phone,
+                'email' => $email
+            ]);
+
+            $clientID = $client->id;
+        }
+
+        $review = Review::create([
+            'phone' => $phone,
+            'email' => $email,
+            'address' => $address,
+            'links' => $links,
+            'review' => $description,
+            'status' => $status,
+            'author' => $user_id,
+            'list' => 'Black',
+            'client' => $clientID,
+            'anon' => $author,
+            'photos' => $photos
+        ]);
+
+        if ($mark) {
+            Personal_status::updateOrCreate([
+                'user' => $user_id,
+                'client' => $clientID,
+            ] , [
+                'status' => $mark
+            ] );  
+        }
+
+        return redirect('client/' . $clientID);
     }
 
 
-    public function checkByPhone(request $request) {
+    public function checkByPhone(request $request) 
+    {
         if ($request->phone) {
 
             $clients = Client::where('phone', $request->phone)->get();
@@ -119,7 +302,8 @@ class HomeController extends Controller
             );
         }
     }    
-    public function checkByEmail(request $request) {
+    public function checkByEmail(request $request) 
+    {
         if ($request->email) {
 
             $clients = Client::where('email', $request->email)->get();
@@ -134,5 +318,50 @@ class HomeController extends Controller
                 'count' => count($clients)
             );
         }
+    }
+
+
+    private function uploadFiles($request) 
+    {
+        $input = Input::all();
+
+        $photos = Input::file('photos');
+        $folder = storage_path('uploads');
+        $date_append = date("Y-m-d-His-");
+
+        if ($photos[0]) {
+            foreach ($photos as $photo) {
+                $filename = $photo->getClientOriginalName();
+                $upload_success = $photo->move($folder, $date_append.$filename);
+
+                if ($upload_success) {
+                    $public = true;
+                    $upload = Upload::create([
+                            "name" => $filename,
+                            "path" => $folder.DIRECTORY_SEPARATOR.$date_append.$filename,
+                            "extension" => pathinfo($filename, PATHINFO_EXTENSION),
+                            "caption" => "",
+                            "hash" => "",
+                            "public" => $public,
+                            "user_id" => Auth::user()->id
+                    ]);
+
+                    while(true) {
+                        $hash = strtolower(str_random(20));
+                        if(!Upload::where("hash", $hash)->count()) {
+                            $upload->hash = $hash;
+                            break;
+                        }
+                    }
+                    $upload->save();
+
+                    $upload_file[] = $upload->id;
+
+                }
+            }
+            
+            return '[' . implode(',', $upload_file) . ']';
+        }
+
     }
 }

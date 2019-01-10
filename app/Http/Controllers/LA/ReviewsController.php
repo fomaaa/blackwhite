@@ -23,7 +23,7 @@ class ReviewsController extends Controller
 {
 	public $show_action = true;
 	public $view_col = 'review';
-	public $listing_cols = ['id', 'client', 'status', 'photos', 'phone', 'email', 'address', 'links', 'review', 'author', 'anon'];
+	public $listing_cols = ['id', 'client', 'email',  'status', 'address',  'list'];
 	
 	public function __construct() {
 		// Field Access of Listing Columns

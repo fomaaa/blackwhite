@@ -33,9 +33,7 @@
 			@foreach( $listing_cols as $col )
 			<th>{{ $module->fields[$col]['label'] or ucfirst($col) }}</th>
 			@endforeach
-			@if($show_actions)
 			<th>Actions</th>
-			@endif
 		</tr>
 		</thead>
 		<tbody>
@@ -100,3 +98,5 @@ $(function () {
 });
 </script>
 @endpush
+
+
