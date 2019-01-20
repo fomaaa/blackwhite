@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;
+use App\User;
 
 class Clients
 {
@@ -16,22 +17,23 @@ class Clients
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::guest()) {
-            return abort(404);
-        }
-
-        if (Auth::user()->is_ban) {
-            echo 'contact the administrator';
-            exit();
+        if (!Auth::user()) {
+             return redirect()->guest('/login');
         }
 
 
+        if (Auth::user()) {
+            if (Auth::user()->is_ban) {
+                echo 'contact the administrator';
+                return abort(404);        
+            }
+            
+        }
 
-        // if (!Auth::user()) {
-        //    return redirect()->guest('/login');
-        // }
-        //  echo Auth::user()->type;
-         
+        User::where('id', Auth::user()->id)->update(['last_login' =>  date("Y-m-d H:i:s")]);
+
+
         return $next($request);
+         
     }
 }

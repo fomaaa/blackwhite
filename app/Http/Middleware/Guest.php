@@ -16,11 +16,14 @@ class Guest
      */
     public function handle($request, Closure $next)
     {
+    
         if (Auth::user()) {
+            if(Auth::user()->type == "Girl") return redirect('/');
+                
             if(Auth::user()->type == "Admin" || Auth::user()->type == 'SuperAdmin') return redirect('/admin');
 
-            if(Auth::user()->type == "Girl") return redirect('/home');
         }
+
 
         return $next($request);
     }

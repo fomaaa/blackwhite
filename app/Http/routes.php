@@ -18,13 +18,16 @@ require __DIR__.'/admin_routes.php';
 
 Route::auth();
 
+Route::get('ru', 'HomeController@setLocaleRU');
+Route::get('en', 'HomeController@setLocaleEN');
+
 Route::group(['middleware' => ['guest']], function () {
 	Route::get('/', 'HomeController@login');
 });
 
 
 Route::group(['middleware' => ['clients']], function () {
-	Route::get('/home', 'HomeController@index');
+	Route::get('/', 'HomeController@index');
 	Route::get('/check', 'HomeController@check');
 	Route::get('/add', 'HomeController@add');
 	Route::get('/add/black', 'HomeController@black');

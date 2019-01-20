@@ -42,7 +42,8 @@ class LAConfigController extends Controller
 		return View('la.la_configs.index', [
 			'configs' => $configs,
 			'skins' => $this->skin_array,
-			'layouts' => $this->layout_array
+			'layouts' => $this->layout_array,
+			'phone' => '123',
 		]);
 	}
 	

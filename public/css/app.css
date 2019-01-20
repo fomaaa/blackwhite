@@ -143,6 +143,15 @@ footer {
     font-size: 15px;
 
 }
+.back-btn {
+    float: left;
+    height: 50px;
+    padding: 15px 15px;
+    font-size: 18px;
+    line-height: 20px;
+    border: none;
+    background-color: transparent;
+}
 
 @media(max-width: 768px) {
 	.check-btn {

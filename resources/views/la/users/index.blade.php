@@ -1,14 +1,14 @@
 @extends("la.layouts.app")
 
 @section("contentheader_title", "Users")
-@section("contentheader_description", "users listing")
+@section("contentheader_description", "Users listing")
 @section("section", "Users")
 @section("sub_section", "Listing")
 @section("htmlheader_title", "Users Listing")
 
 @section("headerElems")
-@la_access("Employees", "create")
-	<button class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#AddModal">Create Users</button>
+@la_access("Users", "create")
+	<button class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#AddModal">Add User</button>
 @endla_access
 @endsection
 
@@ -33,7 +33,9 @@
 			@foreach( $listing_cols as $col )
 			<th>{{ $module->fields[$col]['label'] or ucfirst($col) }}</th>
 			@endforeach
+			@if($show_actions)
 			<th>Actions</th>
+			@endif
 		</tr>
 		</thead>
 		<tbody>
@@ -42,21 +44,29 @@
 		</table>
 	</div>
 </div>
-@la_access("Employees", "create")
+
+@la_access("Users", "create")
 <div class="modal fade" id="AddModal" role="dialog" aria-labelledby="myModalLabel">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="myModalLabel">Create User</h4>
+				<h4 class="modal-title" id="myModalLabel">Add User</h4>
 			</div>
-			{!! Form::open(['action' => 'LA\UsersController@store']) !!}
+			{!! Form::open(['action' => 'LA\UsersController@store', 'id' => 'user-add-form']) !!}
 			<div class="modal-body">
 				<div class="box-body">
                     @la_form($module)
 					
 					{{--
-
+					@la_input($module, 'name')
+					@la_input($module, 'password')
+					@la_input($module, 'type')
+					@la_input($module, 'is_ban')
+					@la_input($module, 'created')
+					@la_input($module, 'com_count')
+					@la_input($module, 'rev_count')
+					@la_input($module, 'last_login')
 					--}}
 				</div>
 			</div>
@@ -69,6 +79,7 @@
 	</div>
 </div>
 @endla_access
+
 @endsection
 
 @push('styles')
@@ -98,5 +109,3 @@ $(function () {
 });
 </script>
 @endpush
-
-

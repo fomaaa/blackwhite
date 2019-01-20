@@ -1,12 +1,12 @@
 <?php $__env->startSection("contentheader_title", "Users"); ?>
-<?php $__env->startSection("contentheader_description", "users listing"); ?>
+<?php $__env->startSection("contentheader_description", "Users listing"); ?>
 <?php $__env->startSection("section", "Users"); ?>
 <?php $__env->startSection("sub_section", "Listing"); ?>
 <?php $__env->startSection("htmlheader_title", "Users Listing"); ?>
 
 <?php $__env->startSection("headerElems"); ?>
-<?php if(LAFormMaker::la_access("Employees", "create")) { ?>
-	<button class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#AddModal">Create Users</button>
+<?php if(LAFormMaker::la_access("Users", "create")) { ?>
+	<button class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#AddModal">Add User</button>
 <?php } ?>
 <?php $__env->stopSection(); ?>
 
@@ -31,7 +31,9 @@
 			<?php foreach( $listing_cols as $col ): ?>
 			<th><?php echo e(isset($module->fields[$col]['label']) ? $module->fields[$col]['label'] : ucfirst($col)); ?></th>
 			<?php endforeach; ?>
+			<?php if($show_actions): ?>
 			<th>Actions</th>
+			<?php endif; ?>
 		</tr>
 		</thead>
 		<tbody>
@@ -40,22 +42,30 @@
 		</table>
 	</div>
 </div>
-<?php if(LAFormMaker::la_access("Employees", "create")) { ?>
+
+<?php if(LAFormMaker::la_access("Users", "create")) { ?>
 <div class="modal fade" id="AddModal" role="dialog" aria-labelledby="myModalLabel">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="myModalLabel">Create User</h4>
+				<h4 class="modal-title" id="myModalLabel">Add User</h4>
 			</div>
-			<?php echo Form::open(['action' => 'LA\UsersController@store']); ?>
+			<?php echo Form::open(['action' => 'LA\UsersController@store', 'id' => 'user-add-form']); ?>
 
 			<div class="modal-body">
 				<div class="box-body">
                     <?php echo LAFormMaker::form($module); ?>
 					
 					<?php /*
-
+					<?php echo LAFormMaker::input($module, 'name'); ?>
+					<?php echo LAFormMaker::input($module, 'password'); ?>
+					<?php echo LAFormMaker::input($module, 'type'); ?>
+					<?php echo LAFormMaker::input($module, 'is_ban'); ?>
+					<?php echo LAFormMaker::input($module, 'created'); ?>
+					<?php echo LAFormMaker::input($module, 'com_count'); ?>
+					<?php echo LAFormMaker::input($module, 'rev_count'); ?>
+					<?php echo LAFormMaker::input($module, 'last_login'); ?>
 					*/ ?>
 				</div>
 			</div>
@@ -70,6 +80,7 @@
 	</div>
 </div>
 <?php } ?>
+
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startPush('styles'); ?>
@@ -99,4 +110,5 @@ $(function () {
 });
 </script>
 <?php $__env->stopPush(); ?>
+
 <?php echo $__env->make("la.layouts.app", array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

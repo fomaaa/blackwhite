@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App;
+use View;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Models\City;
@@ -15,6 +17,7 @@ use App\Models\Upload;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Input;
+use Dwij\Laraadmin\Models\LAConfigs;
 
 
 class HomeController extends Controller
@@ -26,7 +29,13 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        //$this->middleware('auth');
+        session_start();
+        $location = $this->_getLocation();
+        App::setLocale($location);
+        $fp = LAConfigs::where('key', 'sitename_part2')->first();
+        
+        View::share ( 'footer_phone', $fp->value );        
+        View::share ( 'location', $location);        
     }
 
     /**
@@ -45,7 +54,6 @@ class HomeController extends Controller
     }
 
     public function check(){
-        
         return view('front/check');
     }
 
@@ -88,7 +96,11 @@ class HomeController extends Controller
             if ($data['mark']) {
                 $data['mark'] = $data['mark']->status;
             } else {
-                 $data['mark'] = 'You can leave a personal note for this user.';
+                if ($this->_getLocation() == 'ru') {
+                    $data['mark'] = 'You can leave a personal note for this user.';
+                } else {
+                    $data['mark'] = 'Вы можете оставить личную пометку для этого пользователя';
+                }
             }
 
             $reviews = new Review();
@@ -103,11 +115,21 @@ class HomeController extends Controller
                 foreach($data['reviews'] as $key => $review) {
                     // dd($review);
                     $review->status = $status->where('id', $review->status)->first();
-                    $review->author = $user->where('id', $review->author)->first();
+                    if ($user) {
+                        $review->author = $user->where('id', $review->author)->first();
+                    } 
                     $review->address =  City::where('id', $review->address)->first();
                     $data['reviews'][$key]['comments'] = $comments->where('review', $review->id)->get();
+
                     foreach ($data['reviews'][$key]['comments'] as $index => $comment) {
-                        $data['reviews'][$key]['comments'][$index]->user = User::where('id', $data['reviews'][$key]['comments'][$index]->user)->first()->name;
+                        $user = User::where('id', $data['reviews'][$key]['comments'][$index]->user)->first();
+
+                        if ($user) {
+                            $data['reviews'][$key]['comments'][$index]->user = $user->name;
+                            
+                        } else {
+                            $data['reviews'][$key]['comments'][$index]->user = "Anonymously";
+                        }
                     }
 
                     $commentsCount+= count($data['reviews'][$key]['comments']);
@@ -138,6 +160,18 @@ class HomeController extends Controller
             'anon' => $is_anon, 
             'user' => Auth::user()->id
         ]);
+
+        $user = User::where('id', Auth::user()->id)->first();
+        if ($user) {
+            $review_count = $user->rev_count;
+            $comment_count = $user->com_count;
+
+            User::where('id', Auth::user()->id)->update([
+                'com_count' => $comment_count +1,
+            ]);
+
+            
+        }
 
 
         return $comment->id;
@@ -175,8 +209,10 @@ class HomeController extends Controller
         $description = $request->description;
         $author = $request->author;
         $user_id = Auth::user()->id;
-        // $photos =  $this->uploadFiles($request);
         $mark = $request->mark;
+
+        $photos =  $this->uploadFiles($request);
+        $photos ? '' : $photos = "";
 
         if ($phone) {
             $is_client  = Client::where('phone', $phone)->first();
@@ -204,6 +240,18 @@ class HomeController extends Controller
             $clientID = $client->id;
         }
 
+        $user = User::where('id', $user_id)->first();
+
+        if ($user) {
+            $review_count = $user->rev_count;
+
+            User::where('id', $user_id)->update([
+                'rev_count' => $review_count +1,
+            ]);
+
+            
+        }
+
         $review = Review::create([
             'phone' => $phone,
             'email' => $email,
@@ -214,17 +262,17 @@ class HomeController extends Controller
             'list' => 'White',
             'anon' => $author,
             'client' => $clientID,
-            // 'photos' => $photos
+            'photos' => $photos
         ]);
 
-        if ($mark) {
-            Personal_status::updateOrCreate([
-                'user' => $user_id,
-                'client' => $clientID,
-            ] , [
-                'status' => $mark
-            ] );  
-        }
+        // if ($mark) {
+        //     Personal_status::updateOrCreate([
+        //         'user' => $user_id,
+        //         'client' => $clientID,
+        //     ] , [
+        //         'status' => $mark
+        //     ] );  
+        // }
 
         return redirect('client/' . $clientID);
     }
@@ -244,7 +292,7 @@ class HomeController extends Controller
 
         $photos =  $this->uploadFiles($request);
         $photos ? '' : $photos = "";
-        
+
         if ($phone) {
             $is_client  = Client::where('phone', $phone)->first();
 
@@ -270,7 +318,6 @@ class HomeController extends Controller
 
             $clientID = $client->id;
         }
-
         $review = Review::create([
             'phone' => $phone,
             'email' => $email,
@@ -285,14 +332,22 @@ class HomeController extends Controller
             'photos' => $photos
         ]);
 
-        if ($mark) {
-            Personal_status::updateOrCreate([
-                'user' => $user_id,
-                'client' => $clientID,
-            ] , [
-                'status' => $mark
-            ] );  
+        $user = User::where('id', $user_id)->first();
+        if ($user) {
+            $review_count = $user->rev_count;
+
+            User::where('id', $user_id)->update([
+                'rev_count' => $review_count +1,
+            ]);
         }
+        // if ($mark) {
+        //     Personal_status::updateOrCreate([
+        //         'user' => $user_id,
+        //         'client' => $clientID,
+        //     ] , [
+        //         'status' => $mark
+        //     ] );  
+        // }
 
         return redirect('client/' . $clientID);
     }
@@ -377,4 +432,29 @@ class HomeController extends Controller
         }
 
     }
+
+    public function setLocaleRU()
+    {
+        $_SESSION['location'] = 'ru';
+
+        return \App::make('redirect')->back();
+    }
+
+    public function setLocaleEN() 
+    {
+         $_SESSION['location'] = 'en';
+
+         return \App::make('redirect')->back();
+    }
+
+    private function _getLocation() 
+    {
+        isset($_SESSION['location']) ? $location = $_SESSION['location'] : $location = 'ru';
+
+        return $location;
+    }
 }
+
+
+
+    
