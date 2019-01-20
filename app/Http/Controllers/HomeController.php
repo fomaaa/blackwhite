@@ -178,22 +178,30 @@ class HomeController extends Controller
         // $photos =  $this->uploadFiles($request);
         $mark = $request->mark;
 
-        $is_client  = Client::where('phone', $phone)->first();
-        // dd($is_client);
+        if ($phone) {
+            $is_client  = Client::where('phone', $phone)->first();
+
+            if (!$is_client) {
+                $is_client  = Client::where('email', $email)->first();
+                if ($is_client) {
+                    // dd($is_client);
+                    $is_client->update(['phone' => $phone]);
+                }
+                //update phone here
+            }
+        } else if ($email) {
+            $is_client  = Client::where('email', $email)->first();
+        }
+
         if ($is_client) {
             $clientID =  $is_client->id;
         } else {
-            $is_client = Client::where('email', $email)->first();
+            $client = Client::create([
+                'phone' => $phone,
+                'email' => $email
+            ]);
 
-            if ($is_client) {
-                $clientID =  $is_client->id;
-            } else {
-                $client = Client::create([
-                    'phone' => $phone,
-                    'email' => $email
-                ]);
-                $clientID = $client->id;
-            }
+            $clientID = $client->id;
         }
 
         $review = Review::create([
@@ -236,11 +244,16 @@ class HomeController extends Controller
 
         $photos =  $this->uploadFiles($request);
         $photos ? '' : $photos = "";
+        
         if ($phone) {
             $is_client  = Client::where('phone', $phone)->first();
 
             if (!$is_client) {
                 $is_client  = Client::where('email', $email)->first();
+                if ($is_client) {
+                    // dd($is_client);
+                    $is_client->update(['phone' => $phone]);
+                }
                 //update phone here
             }
         } else if ($email) {
