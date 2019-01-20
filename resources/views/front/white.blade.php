@@ -75,11 +75,17 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label for="phone" class="col-md-4 control-label">Photos</label>
+                            <div class="col-md-6">
+                                <input type="file" class="files form-control" id="photos" name="photos[]" multiple>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label for="phone" class="col-md-4 control-label">Review</label>
 
                             <div class="col-md-6">
                                 <label class="checkbox-inline">
-                                  <input type="radio" id="author" class="author" name="author" value="No"> Your name
+                                  <input type="radio" id="author" class="author" checked name="author" value="No"> Your name
                                 </label>
                                 <label class="checkbox-inline">
                                   <input type="radio" id="author" class="author" name="author" value="Yes"> Anonymously

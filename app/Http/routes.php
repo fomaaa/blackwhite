@@ -24,7 +24,7 @@ Route::group(['middleware' => ['guest']], function () {
 
 
 Route::group(['middleware' => ['clients']], function () {
-	Route::get('/home', 'HomeController@index');
+	Route::get('/', 'HomeController@index');
 	Route::get('/check', 'HomeController@check');
 	Route::get('/add', 'HomeController@add');
 	Route::get('/add/black', 'HomeController@black');

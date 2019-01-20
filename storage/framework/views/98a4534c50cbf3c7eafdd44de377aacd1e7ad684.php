@@ -43,9 +43,14 @@
                 </button>
 
                 <!-- Branding Image -->
-                <a class="navbar-brand" href="<?php echo e(url('/home')); ?>">
+                <a class="navbar-brand" href="<?php echo e(url('/')); ?>">
                     Black/White List
                 </a>
+                <?php if($_SERVER['REQUEST_URI'] != '/' && $_SERVER['REQUEST_URI'] != '/login'): ?>
+                
+
+                <button class="back-btn" onclick="history.go(-1);">← Back </button>
+                <?php endif; ?>
             </div>
 
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
@@ -56,7 +61,6 @@
                     <!-- Authentication Links -->
                     <?php if(Auth::guest()): ?>
                         <li><a href="<?php echo e(url('/login')); ?>">Login</a></li>
-                        <li><a href="<?php echo e(url('/register')); ?>">Register</a></li>
                     <?php else: ?>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -72,11 +76,11 @@
             </div>
         </div>
     </nav>
-    
+
         <?php echo $__env->yieldContent('content'); ?>
     </div>
 
-    <footer class="page-footer  font-small blue">Support : +9(999)0000000</footer>
+    <?php if(Auth::user()): ?><footer class="page-footer  font-small blue">Support : <?php echo e($footer_phone); ?></footer> <?php endif; ?>
     <!-- JavaScripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js" integrity="sha384-I6F5OKECLVtK/BL+8iSLDEHowSAfUo76ZL9+kGAgTRdiByINKJaqTPH/QVNS1VDb" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>

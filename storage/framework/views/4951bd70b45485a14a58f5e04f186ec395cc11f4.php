@@ -30,16 +30,17 @@
 
 			<!-- text input -->
 			<div class="form-group">
+				<label>Phone in footer</label>
+				<input type="text" class="form-control" name="sitename_part2" value="<?php echo e($configs->sitename_part2); ?>">
+			</div>
+
+			<div class="form-group">
 				<label>Sitename</label>
 				<input type="text" class="form-control" placeholder="Lara" name="sitename" value="<?php echo e($configs->sitename); ?>">
 			</div>
 			<div class="form-group">
 				<label>Sitename First Word</label>
 				<input type="text" class="form-control" placeholder="Lara" name="sitename_part1" value="<?php echo e($configs->sitename_part1); ?>">
-			</div>
-			<div class="form-group">
-				<label>Sitename Second Word</label>
-				<input type="text" class="form-control" placeholder="Admin 1.0" name="sitename_part2" value="<?php echo e($configs->sitename_part2); ?>">
 			</div>
 			<div class="form-group">
 				<label>Sitename Short (2/3 Characters)</label>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use View;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Models\City;
@@ -15,6 +16,7 @@ use App\Models\Upload;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Input;
+use Dwij\Laraadmin\Models\LAConfigs;
 
 
 class HomeController extends Controller
@@ -26,7 +28,9 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        //$this->middleware('auth');
+        $fp = LAConfigs::where('key', 'sitename_part2')->first();
+        
+        View::share ( 'footer_phone', $fp->value );        
     }
 
     /**
@@ -103,11 +107,21 @@ class HomeController extends Controller
                 foreach($data['reviews'] as $key => $review) {
                     // dd($review);
                     $review->status = $status->where('id', $review->status)->first();
-                    $review->author = $user->where('id', $review->author)->first();
+                    if ($user) {
+                        $review->author = $user->where('id', $review->author)->first();
+                    } 
                     $review->address =  City::where('id', $review->address)->first();
                     $data['reviews'][$key]['comments'] = $comments->where('review', $review->id)->get();
+
                     foreach ($data['reviews'][$key]['comments'] as $index => $comment) {
-                        $data['reviews'][$key]['comments'][$index]->user = User::where('id', $data['reviews'][$key]['comments'][$index]->user)->first()->name;
+                        $user = User::where('id', $data['reviews'][$key]['comments'][$index]->user)->first();
+
+                        if ($user) {
+                            $data['reviews'][$key]['comments'][$index]->user = $user->name;
+                            
+                        } else {
+                            $data['reviews'][$key]['comments'][$index]->user = "Anonymously";
+                        }
                     }
 
                     $commentsCount+= count($data['reviews'][$key]['comments']);
@@ -175,25 +189,35 @@ class HomeController extends Controller
         $description = $request->description;
         $author = $request->author;
         $user_id = Auth::user()->id;
-        // $photos =  $this->uploadFiles($request);
         $mark = $request->mark;
 
-        $is_client  = Client::where('phone', $phone)->first();
-        // dd($is_client);
+        $photos =  $this->uploadFiles($request);
+        $photos ? '' : $photos = "";
+
+        if ($phone) {
+            $is_client  = Client::where('phone', $phone)->first();
+
+            if (!$is_client) {
+                $is_client  = Client::where('email', $email)->first();
+                if ($is_client) {
+                    // dd($is_client);
+                    $is_client->update(['phone' => $phone]);
+                }
+                //update phone here
+            }
+        } else if ($email) {
+            $is_client  = Client::where('email', $email)->first();
+        }
+
         if ($is_client) {
             $clientID =  $is_client->id;
         } else {
-            $is_client = Client::where('email', $email)->first();
+            $client = Client::create([
+                'phone' => $phone,
+                'email' => $email
+            ]);
 
-            if ($is_client) {
-                $clientID =  $is_client->id;
-            } else {
-                $client = Client::create([
-                    'phone' => $phone,
-                    'email' => $email
-                ]);
-                $clientID = $client->id;
-            }
+            $clientID = $client->id;
         }
 
         $review = Review::create([
@@ -206,7 +230,7 @@ class HomeController extends Controller
             'list' => 'White',
             'anon' => $author,
             'client' => $clientID,
-            // 'photos' => $photos
+            'photos' => $photos
         ]);
 
         if ($mark) {
@@ -236,11 +260,16 @@ class HomeController extends Controller
 
         $photos =  $this->uploadFiles($request);
         $photos ? '' : $photos = "";
+
         if ($phone) {
             $is_client  = Client::where('phone', $phone)->first();
 
             if (!$is_client) {
                 $is_client  = Client::where('email', $email)->first();
+                if ($is_client) {
+                    // dd($is_client);
+                    $is_client->update(['phone' => $phone]);
+                }
                 //update phone here
             }
         } else if ($email) {
@@ -257,7 +286,6 @@ class HomeController extends Controller
 
             $clientID = $client->id;
         }
-
         $review = Review::create([
             'phone' => $phone,
             'email' => $email,
@@ -365,3 +393,7 @@ class HomeController extends Controller
 
     }
 }
+
+
+
+    

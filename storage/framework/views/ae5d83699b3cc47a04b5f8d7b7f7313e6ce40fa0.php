@@ -166,7 +166,7 @@
                                 </div>
                             </div> 
                         </div>
-                    </div>                                          
+                    </div>                               
                     <div class="form-horizontal">
                         <div class="row">
                             <div class="form-group">
@@ -194,7 +194,6 @@
     </div>
 </div>
 <?php $__env->stopSection(); ?>
-
 
 
 

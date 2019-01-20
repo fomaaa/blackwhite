@@ -23,11 +23,11 @@ use App\Role;
 
 class UsersController extends Controller
 {
-	public $show_action = false;
+	public $show_action = true;
 	public $view_col = 'name';
-	public $listing_cols = ['id', 'name', 'type', 'is_ban'];
+	public $listing_cols = ['id', 'name','type', 'is_ban', 'created', 'com_count', 'rev_count', 'last_login'];
 	
-	public function __construct() {
+	public function __construct() {	
 		// Field Access of Listing Columns
 		if(\Dwij\Laraadmin\Helpers\LAHelper::laravel_ver() == 5.3) {
 			$this->middleware(function ($request, $next) {
@@ -60,31 +60,21 @@ class UsersController extends Controller
 	}
 
 	/**
-	 * Display the specified user.
+	 * Show the form for creating a new user.
 	 *
-	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function show($id)
+	public function create()
 	{
-		if(Module::hasAccess("Users", "view")) {
-			$user = User::findOrFail($id);
-			if(isset($user->id)) {
-				if($user['type'] == "Employee") {
-					return redirect(config('laraadmin.adminRoute') . '/employees/'.$user->id);
-				} else if($user['type'] == "Client") {
-					return redirect(config('laraadmin.adminRoute') . '/clients/'.$user->id);
-				}
-			} else {
-				return view('errors.404', [
-					'record_id' => $id,
-					'record_name' => ucfirst("user"),
-				]);
-			}
-		} else {
-			return redirect(config('laraadmin.adminRoute')."/");
-		}
+		//
 	}
+
+	/**
+	 * Store a newly created user in database.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response
+	 */
 	public function store (Request $request) {
 
 			$rules = Module::validateRules("Users", $request);
@@ -94,17 +84,19 @@ class UsersController extends Controller
 			if ($validator->fails()) {
 				return redirect()->back()->withErrors($validator)->withInput();
 			}
-			
+			$check = User::where('name', $request->name)->first();
+
 			// generate password
 			$password = LAHelper::gen_password();
 			// Create User
 			$user = User::create([
 				'name' => $request->name,
+				'created' => date("Y-m-d H:i:s"),
 				'email' => 'fake@fake.r' . rand(0, 22222),
 				'password' => bcrypt($request->password),
 				'type' => $request->type,
 			]);
-
+			// dd($user);
 			$user->detachRoles();
 			$role = Role::find(2);
 			$user->attachRole($role);
@@ -116,6 +108,114 @@ class UsersController extends Controller
 
 			return redirect()->route(config('laraadmin.adminRoute') . '.users.index');
 	}
+
+	/**
+	 * Display the specified user.
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function show($id)
+	{
+		if(Module::hasAccess("Users", "view")) {
+			
+			$user = User::find($id);
+			if(isset($user->id)) {
+				$module = Module::get('Users');
+				$module->row = $user;
+				
+				return view('la.users.show', [
+					'module' => $module,
+					'view_col' => $this->view_col,
+					'no_header' => true,
+					'no_padding' => "no-padding"
+				])->with('user', $user);
+			} else {
+				return view('errors.404', [
+					'record_id' => $id,
+					'record_name' => ucfirst("user"),
+				]);
+			}
+		} else {
+			return redirect(config('laraadmin.adminRoute')."/");
+		}
+	}
+
+	/**
+	 * Show the form for editing the specified user.
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function edit($id)
+	{
+		if(Module::hasAccess("Users", "edit")) {			
+			$user = User::find($id);
+			if(isset($user->id)) {	
+				$module = Module::get('Users');
+				
+				$module->row = $user;
+				
+				return view('la.users.edit', [
+					'module' => $module,
+					'view_col' => $this->view_col,
+				])->with('user', $user);
+			} else {
+				return view('errors.404', [
+					'record_id' => $id,
+					'record_name' => ucfirst("user"),
+				]);
+			}
+		} else {
+			return redirect(config('laraadmin.adminRoute')."/");
+		}
+	}
+
+	/**
+	 * Update the specified user in storage.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function update(Request $request, $id)
+	{
+		if(Module::hasAccess("Users", "edit")) {
+			
+			$rules = Module::validateRules("Users", $request, true);
+			
+			$validator = Validator::make($request->all(), $rules);
+			
+			if ($validator->fails()) {
+				return redirect()->back()->withErrors($validator)->withInput();;
+			}
+			
+			$insert_id = Module::updateRow("Users", $request, $id);
+			
+			return redirect()->route(config('laraadmin.adminRoute') . '.users.index');
+			
+		} else {
+			return redirect(config('laraadmin.adminRoute')."/");
+		}
+	}
+
+	/**
+	 * Remove the specified user from storage.
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function destroy($id)
+	{
+		if(Module::hasAccess("Users", "delete")) {
+			User::find($id)->forceDelete();
+			
+			// Redirecting to index() method
+			return redirect()->route(config('laraadmin.adminRoute') . '.users.index');
+		} else {
+			return redirect(config('laraadmin.adminRoute')."/");
+		}
+	}
 	
 	/**
 	 * Datatable Ajax fetch
@@ -124,7 +224,7 @@ class UsersController extends Controller
 	 */
 	public function dtajax()
 	{
-		$values = DB::table('users')->select($this->listing_cols)->whereNull('deleted_at');
+		$values = DB::table('users')->select($this->listing_cols)->whereNull('deleted_at')->where('id', '!=', 1);
 		$out = Datatables::of($values)->make();
 		$data = $out->getData();
 
@@ -143,18 +243,42 @@ class UsersController extends Controller
 				//    $data->data[$i][$j];
 				// }
 			}
-			$output = '';
+			$user = User::where('id', $data->data[$i][0])->first();
 			
-			if(Auth::user()->type == "SuperAdmin") {
-				
-				$output .= ' <a href="/admin/drop/'. $data->data[$i][0] .'" class="btn btn-danger btn-xs  act-btn" type="submit"><i class="fa fa-times"></i></a>';
-				
-			} 
+			if($this->show_action) {
+				$output = '';
+				// if(Module::hasAccess("Users", "edit")) {
+				// 	$output .= '<a href="'.url(config('laraadmin.adminRoute') . '/users/'.$data->data[$i][0].'/edit').'" class="btn btn-warning btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-edit"></i></a>';
+				// }
+				if ($user->is_ban) {
+					$output .= ' <a href="/admin/unban/'. $data->data[$i][0] .'" class="btn btn-success btn-xs act-btn" type="submit"><i class="fa fa-check"></i></a>';		
 
-			$output .= ' <a href="/admin/ban/'. $data->data[$i][0] .'" class="btn btn-warning btn-xs  act-btn" type="submit"><i class="fa fa-ban"></i></a>';
-			$data->data[$i][] = (string)$output;
+				} else {
+					$output .= ' <a href="/admin/ban/'. $data->data[$i][0] .'" class="btn btn-warning btn-xs act-btn" type="submit"><i class="fa fa-ban"></i></a>';	
+				}
+				// $output .= '<a href="/ban/'. $data->data[$i][0] .' " class="btn btn-success btn-xs"><i class="fa fa-check"></i></a>';
+
+				if(Module::hasAccess("Users", "delete")) {
+					$output .= Form::open(['route' => [config('laraadmin.adminRoute') . '.users.destroy', $data->data[$i][0]], 'method' => 'delete', 'style'=>'display:inline']);
+					$output .= ' <button class="btn btn-danger btn-xs" type="submit"><i class="fa fa-times"></i></button>';
+					$output .= Form::close();
+				}
+				$data->data[$i][] = (string)$output;
+			}
 		}
 		$out->setData($data);
 		return $out;
+	}
+
+	public function ban(Request $request)
+	{
+		User::where('id', $request->id)->update(['is_ban' => 1]);
+		return redirect('/admin/users');
+	}
+
+	public function unban(Request $request)
+	{
+		User::where('id', $request->id)->update(['is_ban' => 0]);
+		return redirect('/admin/users');
 	}
 }
