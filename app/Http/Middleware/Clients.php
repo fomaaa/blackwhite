@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;
+use App\User;
 
 class Clients
 {
@@ -29,7 +30,8 @@ class Clients
             
         }
 
-        
+        User::where('id', Auth::user()->id)->update(['last_login' =>  date("Y-m-d H:i:s")]);
+
 
         return $next($request);
          

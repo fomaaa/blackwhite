@@ -3,9 +3,9 @@
                     <div class="row">
                         <div class="col-md-10 col-md-offset-1 panel panel-default">
                             <div class="row">
-                                <div class="col-md-4">Phone</div>
-                                <div class="col-md-4">Email</div>
-                                <div class="col-md-4">Data add</div>
+                                <div class="col-md-4">{{trans('message.phone')}}</div>
+                                <div class="col-md-4">{{trans('message.email')}}</div>
+                                <div class="col-md-4">{{trans('message.date_add')}}</div>
 
                             </div>
 
@@ -30,7 +30,7 @@
                             <div class="col-md-10 col-md-offset-1 panel panel-default">
                                 <div class="row">
                                     <div class="col-md-10 ">
-                                        Nothing found
+                                        {{trans('message.nth_fount')}}
                                     </div>
                                 </div>
                             </div>

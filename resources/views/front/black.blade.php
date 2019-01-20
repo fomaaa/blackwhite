@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
-                <div class="panel-heading">Add client to black list</div>
+                <div class="panel-heading">{{trans('message.add_bl')}}</div>
 
                 <div class="panel-body" data-tab="1">
 	                <div class="row">
@@ -25,7 +25,7 @@
                         {{ csrf_field() }}
 
                         <div class="form-group">
-                            <label for="phone" class="col-md-4 control-label">Phone</label>
+                            <label for="phone" class="col-md-4 control-label">{{trans('message.phone')}}</label>
 
                             <div class="col-md-6">
                                 <input id="phone" type="text" required class="form-control" name="phone" placeholder="+97100000000">
@@ -38,7 +38,7 @@
                             </div>
                         </div>                        
                         <div class="form-group">
-                            <label for="phone" class="col-md-4 control-label">Client e-mail</label>
+                            <label for="phone" class="col-md-4 control-label">{{trans('message.cl_email')}}</label>
 
                             <div class="col-md-6">
                                 <input id="email" type="text" class="form-control" name="email" placeholder="client@mail.com">
@@ -51,60 +51,68 @@
                             </div>
                         </div>                        
                         <div class="form-group">
-                            <label for="phone" class="col-md-4 control-label">Address</label>
+                            <label for="phone" class="col-md-4 control-label">{{trans('message.address')}}</label>
 
                             <div class="col-md-6">
                                 <select class="form-control select" name="address" id="address">
                                 	@foreach ($cities as $city)
-									<option value="{{$city->id}}">{{$city->english}}</option>
+                                        @if ($location == "ru")
+                                           <option value="{{$city->id}}">{{$city->russian}}</option>
+                                        @else
+    									   <option value="{{$city->id}}">{{$city->english}}</option>
+                                        @endif
 									@endforeach
                                 </select>
                             </div>
                         </div>                        
                         <div class="form-group">
-                        	<label for="link" class="col-md-4 control-label">Socials links</label>
+                        	<label for="link" class="col-md-4 control-label">{{trans('message.socials')}}</label>
                         	<div class="col-md-6">
  								<textarea id="link" type="text" class="form-control" rows="3" name="link" ></textarea>
 							</div>
                         </div>
                         <div class="form-group">
-                        	<label for="description" class="col-md-4 control-label">Review</label>
+                        	<label for="description" class="col-md-4 control-label">{{trans('message.review')}}</label>
                         	<div class="col-md-6">
  								<textarea class="form-control" rows="3" id="description" type="text"  name="description"></textarea>
  							</div>
                         </div>
                         <div class="form-group">
-                            <label for="phone" class="col-md-4 control-label">Status</label>
+                            <label for="phone" class="col-md-4 control-label">{{trans('message.status')}}</label>
 
                             <div class="col-md-6">
                                 <select class="form-control select" name="status" id="status">
                                 	@foreach ($statuses as $status)
-									<option value="{{$status->id}}">{{$status->english}}</option>
+                                        @if ($location == "ru")
+                                            <option value="{{$status->id}}">{{$status->russian}}</option>
+                                        @else
+    									   <option value="{{$status->id}}">{{$status->english}}</option>
+                                        @endif
 									@endforeach
                                 </select>
                             </div>
                         </div>  
                         <div class="form-group">
-                        	<label for="phone" class="col-md-4 control-label">Photos</label>
+                        	<label for="phone" class="col-md-4 control-label">{{trans('message.photos')}}</label>
                         	<div class="col-md-6">
                         		<input type="file" class="files form-control" id="photos" name="photos[]" multiple>
                         	</div>
                         </div>
                         <div class="form-group">
-                            <label for="phone" class="col-md-4 control-label">Review</label>
+                            <label for="phone" class="col-md-4 control-label">{{trans('message.review')}}</label>
 
                             <div class="col-md-6">
 		                        <label class="checkbox-inline">
-								  <input type="radio" id="author" class="author" checked name="author" value="No"> Your name
+								  <input type="radio" id="author" class="author" checked name="author" value="No"> {{trans('message.your_name')}}
 								</label>
 								<label class="checkbox-inline">
-								  <input type="radio" id="author" class="author" name="author" value="Yes"> Anonymously
+								  <input type="radio" id="author" class="author" name="author" value="Yes"> {{trans('message.anon')}}
 								</label>
                             </div>
 						</div>
 						<div class="form-group">
 							<div class="col-md-offset-6 col-md-6">
-								<button  class="btn btn-primary btn-lg btn-success next-tab">Add review</button>
+								<button  class="btn btn-primary btn-lg btn-success next-tab">{{trans('message.add_review')}}</button>
 							</div>
 						</div>
                         <input type="hidden" name="personal_mark">
@@ -118,7 +126,7 @@
                     <div class="form-horizontal">
                         <div class="row">
                             <div class="form-group">
-                                <label for="phone" class="col-md-4 control-label">Phone</label>
+                                <label for="phone" class="col-md-4 control-label">{{trans('message.phone')}}</label>
                                 <div class="col-md-6">
                                     <label for="phone" class="col-md-4 control-label value"></label>
                                 </div>
@@ -129,7 +137,7 @@
                     <div class="form-horizontal">
                         <div class="row">
                             <div class="form-group">
-                                <label for="email" class="col-md-4 control-label">Client e-mail</label>
+                                <label for="email" class="col-md-4 control-label">{{trans('message.cl_email')}}</label>
                                 <div class="col-md-6">
                                     <label for="email" class="col-md-4 control-label value"></label>
                                 </div>
@@ -140,7 +148,7 @@
                     <div class="form-horizontal">
                         <div class="row">
                             <div class="form-group">
-                                <label for="address" class="col-md-4 control-label">Address</label>
+                                <label for="address" class="col-md-4 control-label">{{trans('message.address')}}</label>
                                 <div class="col-md-6">
                                     <label for="address" class="col-md-4 control-label value">Dubia</label>
                                 </div>
@@ -151,7 +159,7 @@
                     <div class="form-horizontal">
                         <div class="row">
                             <div class="form-group">
-                                <label for="link" class="col-md-4 control-label">Socials links</label>
+                                <label for="link" class="col-md-4 control-label">{{trans('message.socials')}}</label>
                                 <div class="col-md-6">
                                     <label for="link" class="col-md-4 control-label value"></label>
                                 </div>
@@ -161,7 +169,7 @@
                     <div class="form-horizontal">
                         <div class="row">
                             <div class="form-group">
-                                <label for="status" class="col-md-4 control-label">Status</label>
+                                <label for="status" class="col-md-4 control-label">{{trans('message.status')}}</label>
                                 <div class="col-md-6">
                                     <label for="status" class="col-md-4 control-label value">Police</label>
                                 </div>
@@ -171,7 +179,7 @@
                     <div class="form-horizontal">
                         <div class="row">
                             <div class="form-group">
-                                <label for="description" class="col-md-4 control-label">Review</label>
+                                <label for="description" class="col-md-4 control-label">{{trans('message.review')}}</label>
                                 <div class="col-md-6">
                                     <label for="description" class="col-md-4 control-label value"></label>
                                 </div>
@@ -182,8 +190,8 @@
                         <div class="form-horizontal">
                             <div class="row">
                                 <div class=" col-md-6 btn-block">
-                                    <button  class="btn btn-primary btn-lg btn-primary prew-tab">Back and Edit</button>
-                                    <button type="submit"  class="btn btn-primary btn-lg btn-success submit">Confirm and Add</button>
+                                    <button  class="btn btn-primary btn-lg btn-primary prew-tab">{{trans('message.back_edit')}}</button>
+                                    <button type="submit"  class="btn btn-primary btn-lg btn-success submit">{{trans('message.confirm_add')}}</button>
                                 </div>                            
                             </div>                            
                         </div>

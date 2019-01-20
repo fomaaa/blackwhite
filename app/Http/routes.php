@@ -18,6 +18,9 @@ require __DIR__.'/admin_routes.php';
 
 Route::auth();
 
+Route::get('ru', 'HomeController@setLocaleRU');
+Route::get('en', 'HomeController@setLocaleEN');
+
 Route::group(['middleware' => ['guest']], function () {
 	Route::get('/', 'HomeController@login');
 });

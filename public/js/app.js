@@ -157,7 +157,6 @@ $(document).ready(function(){
 		        		$('.review-block').show();
 		        		$('.nth-found').show();
 		        	}
-		            console.log(response);
 
 		        }
 		    });
@@ -192,7 +191,6 @@ $(document).ready(function(){
 		        		$('.review-block').show();
 		        		$('.nth-found').show();
 		        	}
-		            console.log(response);
 
 		        }
 		    });

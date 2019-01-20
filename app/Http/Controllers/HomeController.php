@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App;
 use View;
 use App\Http\Requests;
 use Illuminate\Http\Request;
@@ -28,9 +29,13 @@ class HomeController extends Controller
      */
     public function __construct()
     {
+        session_start();
+        $location = $this->_getLocation();
+        App::setLocale($location);
         $fp = LAConfigs::where('key', 'sitename_part2')->first();
         
         View::share ( 'footer_phone', $fp->value );        
+        View::share ( 'location', $location);        
     }
 
     /**
@@ -49,7 +54,6 @@ class HomeController extends Controller
     }
 
     public function check(){
-        
         return view('front/check');
     }
 
@@ -92,7 +96,11 @@ class HomeController extends Controller
             if ($data['mark']) {
                 $data['mark'] = $data['mark']->status;
             } else {
-                 $data['mark'] = 'You can leave a personal note for this user.';
+                if ($this->_getLocation() == 'ru') {
+                    $data['mark'] = 'You can leave a personal note for this user.';
+                } else {
+                    $data['mark'] = 'Вы можете оставить личную пометку для этого пользователя';
+                }
             }
 
             $reviews = new Review();
@@ -152,6 +160,18 @@ class HomeController extends Controller
             'anon' => $is_anon, 
             'user' => Auth::user()->id
         ]);
+
+        $user = User::where('id', Auth::user()->id)->first();
+        if ($user) {
+            $review_count = $user->rev_count;
+            $comment_count = $user->com_count;
+
+            User::where('id', Auth::user()->id)->update([
+                'com_count' => $comment_count +1,
+            ]);
+
+            
+        }
 
 
         return $comment->id;
@@ -220,6 +240,18 @@ class HomeController extends Controller
             $clientID = $client->id;
         }
 
+        $user = User::where('id', $user_id)->first();
+
+        if ($user) {
+            $review_count = $user->rev_count;
+
+            User::where('id', $user_id)->update([
+                'rev_count' => $review_count +1,
+            ]);
+
+            
+        }
+
         $review = Review::create([
             'phone' => $phone,
             'email' => $email,
@@ -233,14 +265,14 @@ class HomeController extends Controller
             'photos' => $photos
         ]);
 
-        if ($mark) {
-            Personal_status::updateOrCreate([
-                'user' => $user_id,
-                'client' => $clientID,
-            ] , [
-                'status' => $mark
-            ] );  
-        }
+        // if ($mark) {
+        //     Personal_status::updateOrCreate([
+        //         'user' => $user_id,
+        //         'client' => $clientID,
+        //     ] , [
+        //         'status' => $mark
+        //     ] );  
+        // }
 
         return redirect('client/' . $clientID);
     }
@@ -300,14 +332,22 @@ class HomeController extends Controller
             'photos' => $photos
         ]);
 
-        if ($mark) {
-            Personal_status::updateOrCreate([
-                'user' => $user_id,
-                'client' => $clientID,
-            ] , [
-                'status' => $mark
-            ] );  
+        $user = User::where('id', $user_id)->first();
+        if ($user) {
+            $review_count = $user->rev_count;
+
+            User::where('id', $user_id)->update([
+                'rev_count' => $review_count +1,
+            ]);
         }
+        // if ($mark) {
+        //     Personal_status::updateOrCreate([
+        //         'user' => $user_id,
+        //         'client' => $clientID,
+        //     ] , [
+        //         'status' => $mark
+        //     ] );  
+        // }
 
         return redirect('client/' . $clientID);
     }
@@ -391,6 +431,27 @@ class HomeController extends Controller
             return '[' . implode(',', $upload_file) . ']';
         }
 
+    }
+
+    public function setLocaleRU()
+    {
+        $_SESSION['location'] = 'ru';
+
+        return \App::make('redirect')->back();
+    }
+
+    public function setLocaleEN() 
+    {
+         $_SESSION['location'] = 'en';
+
+         return \App::make('redirect')->back();
+    }
+
+    private function _getLocation() 
+    {
+        isset($_SESSION['location']) ? $location = $_SESSION['location'] : $location = 'ru';
+
+        return $location;
     }
 }
 

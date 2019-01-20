@@ -25,7 +25,7 @@ class UsersController extends Controller
 {
 	public $show_action = true;
 	public $view_col = 'name';
-	public $listing_cols = ['id', 'name','type', 'is_ban', 'created', 'com_count', 'rev_count', 'last_login'];
+	public $listing_cols = ['id', 'name','type', 'created', 'com_count', 'rev_count', 'last_login'];
 	
 	public function __construct() {	
 		// Field Access of Listing Columns
@@ -224,7 +224,12 @@ class UsersController extends Controller
 	 */
 	public function dtajax()
 	{
-		$values = DB::table('users')->select($this->listing_cols)->whereNull('deleted_at')->where('id', '!=', 1);
+		if (Auth::user()->type == 'Admin') {
+			$values = DB::table('users')->select($this->listing_cols)->whereNull('deleted_at')->where('id', '!=', 1)->where('type', '!=' , 'Admin');
+		} else {
+			$values = DB::table('users')->select($this->listing_cols)->whereNull('deleted_at')->where('id', '!=', 1);
+			
+		}
 		$out = Datatables::of($values)->make();
 		$data = $out->getData();
 
