@@ -1,12 +1,12 @@
-<?php $__env->startSection("contentheader_title", "Users"); ?>
-<?php $__env->startSection("contentheader_description", "Users listing"); ?>
-<?php $__env->startSection("section", "Users"); ?>
+<?php $__env->startSection("contentheader_title", "Comments"); ?>
+<?php $__env->startSection("contentheader_description", "Comments listing"); ?>
+<?php $__env->startSection("section", "Comments"); ?>
 <?php $__env->startSection("sub_section", "Listing"); ?>
-<?php $__env->startSection("htmlheader_title", "Users Listing"); ?>
+<?php $__env->startSection("htmlheader_title", "Comments Listing"); ?>
 
 <?php $__env->startSection("headerElems"); ?>
-<?php if(LAFormMaker::la_access("Users", "create")) { ?>
-	<button class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#AddModal">Add User</button>
+<?php if(LAFormMaker::la_access("Comments", "create")) { ?>
+	<button class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#AddModal">Add Comment</button>
 <?php } ?>
 <?php $__env->stopSection(); ?>
 
@@ -43,29 +43,23 @@
 	</div>
 </div>
 
-<?php if(LAFormMaker::la_access("Users", "create")) { ?>
+<?php if(LAFormMaker::la_access("Comments", "create")) { ?>
 <div class="modal fade" id="AddModal" role="dialog" aria-labelledby="myModalLabel">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="myModalLabel">Add User</h4>
+				<h4 class="modal-title" id="myModalLabel">Add Comment</h4>
 			</div>
-			<?php echo Form::open(['action' => 'LA\UsersController@store', 'id' => 'user-add-form']); ?>
+			<?php echo Form::open(['action' => 'LA\CommentsController@store', 'id' => 'comment-add-form']); ?>
 
 			<div class="modal-body">
 				<div class="box-body">
                     <?php echo LAFormMaker::form($module); ?>
 					
 					<?php /*
-					<?php echo LAFormMaker::input($module, 'name'); ?>
-					<?php echo LAFormMaker::input($module, 'password'); ?>
-					<?php echo LAFormMaker::input($module, 'type'); ?>
-					<?php echo LAFormMaker::input($module, 'is_ban'); ?>
-					<?php echo LAFormMaker::input($module, 'created'); ?>
-					<?php echo LAFormMaker::input($module, 'com_count'); ?>
-					<?php echo LAFormMaker::input($module, 'rev_count'); ?>
-					<?php echo LAFormMaker::input($module, 'last_login'); ?>
+					<?php echo LAFormMaker::input($module, 'review'); ?>
+					<?php echo LAFormMaker::input($module, 'comment'); ?>
 					*/ ?>
 				</div>
 			</div>
@@ -94,7 +88,7 @@ $(function () {
 	$("#example1").DataTable({
 		processing: true,
         serverSide: true,
-        ajax: "<?php echo e(url(config('laraadmin.adminRoute') . '/user_dt_ajax')); ?>",
+        ajax: "<?php echo e(url(config('laraadmin.adminRoute') . '/comment_dt_ajax')); ?>",
 		language: {
 			lengthMenu: "_MENU_",
 			search: "_INPUT_",
@@ -104,7 +98,7 @@ $(function () {
 		columnDefs: [ { orderable: false, targets: [-1] }],
 		<?php endif; ?>
 	});
-	$("#user-add-form").validate({
+	$("#comment-add-form").validate({
 		
 	});
 });
