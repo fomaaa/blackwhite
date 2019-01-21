@@ -292,7 +292,13 @@ class HomeController extends Controller
 
         $photos =  $this->uploadFiles($request);
         $photos ? '' : $photos = "";
-
+        if (!$phone || !$email) {
+            if ($this->_getLocation() == 'ru') {
+                return redirect()->back()->withErrors('Phone or email required!');
+            } else {
+                return redirect()->back()->withErrors('Для размещения отзыва необходимо добавить телефон или email !');
+            }
+        }
         if ($phone) {
             $is_client  = Client::where('phone', $phone)->first();
 
