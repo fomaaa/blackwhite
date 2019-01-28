@@ -1,11 +1,9 @@
-
-
 <?php $__env->startSection('content'); ?>
 <div class="container">
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
-                <div class="panel-heading">Check client</div>
+                <div class="panel-heading"><?php echo e(trans('message.check_client')); ?></div>
 
                 <div class="panel-body check-form">
                     <div class="row">
@@ -13,14 +11,14 @@
                              <?php echo e(csrf_field()); ?>
 
                             <div class="form-group">
-                                <label for="phone" class="col-md-4 control-label">Enter Phone</label>
+                                <label for="phone" class="col-md-4 control-label"><?php echo e(trans('message.enter_phone')); ?></label>
 
                                 <div class="col-md-4">
                                     <input id="phone" type="text" class="form-control" min="10" name="phone" placeholder="+97100000000">
-                                    <span class="error">10 numbers required</span>
+                                    <span class="error"><?php echo e(trans('message.ph_val')); ?></span>
                                 </div>
                                 <div class="col-md-2">
-                                     <button type="submit"  class="btn check-btn btn-primary ">Check</button>
+                                     <button type="submit"  class="btn check-btn btn-primary "><?php echo e(trans('message.check')); ?></button>
                                 </div>
                             </div>  
                         </form>
@@ -30,14 +28,14 @@
                              <?php echo e(csrf_field()); ?>
 
                             <div class="form-group">
-                                <label for="phone" class="col-md-4 control-label">Enter Email</label>
+                                <label for="phone" class="col-md-4 control-label"><?php echo e(trans('message.enter_email')); ?></label>
 
                                 <div class="col-md-4">
                                     <input id="email" type="text" class="form-control" name="email" placeholder="Client email">
-                                    <span class="error">Please enter valid email</span>
+                                    <span class="error"><?php echo e(trans('message.em_val')); ?></span>
                                 </div>
                                 <div class="col-md-2">
-                                     <button type="submit" class="btn check-btn btn-primary ">Check</button>
+                                     <button type="submit" class="btn check-btn btn-primary "><?php echo e(trans('message.check')); ?></button>
                                 </div>
                             </div>  
                         </form>
@@ -49,7 +47,7 @@
     <div class="row review-block">
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
-                <div class="panel-heading">Result</div>
+                <div class="panel-heading"><?php echo e(trans('message.result')); ?></div>
                 <div class="res-container">
                     
                 </div>

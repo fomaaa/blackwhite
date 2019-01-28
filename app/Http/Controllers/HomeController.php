@@ -455,7 +455,7 @@ class HomeController extends Controller
 
     private function _getLocation() 
     {
-        isset($_SESSION['location']) ? $location = $_SESSION['location'] : $location = 'ru';
+        isset($_SESSION['location']) ? $location = $_SESSION['location'] : $location = 'en';
 
         return $location;
     }
