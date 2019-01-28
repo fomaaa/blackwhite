@@ -6,7 +6,7 @@ $.ajaxSetup({
 });
 
 $(document).ready(function(){
-	$("#phone").mask("+99999999999");
+	$("#phone").mask("+9999999999999999999");
 
 	$('.next-tab').on('click', function(e){
 		e.preventDefault();
@@ -138,7 +138,7 @@ $(document).ready(function(){
 		e.preventDefault();
 		var phone = $(this).find('#phone').val();
 		var length = phone.length;
-		if (length == '12') {
+		if (length >= '12') {
 			$(this).find('input').removeClass('message');
 			$(this).find('.error').hide();
 			

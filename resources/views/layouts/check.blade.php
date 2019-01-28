@@ -18,7 +18,19 @@
                                 <div class="row">
                                     <div class="col-md-4">{{$client->phone}}</div>
                                     <div class="col-md-4">{{$client->email}}</div>
-                                    <div class="col-md-4">{{$client->created_at}}</div>
+                                    <div class="col-md-4">
+                                        @php
+                                        if ($location == "en") {
+                                            echo date('Y-M-d g:i a', strtotime($client->created_at));
+                                        } else {
+
+                                        $months = array( 1 => 'Янв' , 'Фев' , 'Мар' , 'Апр' , 'Май' , 'Июнь' , 'Июль' , 'Авг' , 'Сент' , 'Окт' , 'Нояб' , 'Дек' );
+
+
+                                            echo date("Y-" . $months[date( 'n' )] ."-d H:i:s", strtotime($client->created_at));
+                                         }
+                                        @endphp
+                                    </div>
 
                                 </div>
                             </div>
