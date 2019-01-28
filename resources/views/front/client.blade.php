@@ -19,14 +19,14 @@
                         <div class="col-md-4 col-12">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <button class="btn btn-primary info-btn" type="button">
+                                    <div class="btn-custom custom-darkblue  info-btn">
                                         {{trans('message.reviews')}} <span class="badge">{{$data['reviewCount']}}</span>
-                                    </button>
+                                    </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <button class="btn btn-info info-btn" type="button">
+                                    <div class="btn-custom  custom-blue  info-btn" >
                                         {{trans('message.comments')}} <span class="badge">{{$data['commentsCount']}}</span>
-                                    </button> 
+                                    </div> 
                                 </div>
                             </div>
                         </div>
@@ -136,7 +136,19 @@
                                                 {{$comment['user']}}
                                             @endif  
                                         </span></div>
-                                        <div class="comment__header-right">{{trans('message.date')}}: <span>{{$comment->created_at}}</span></div>
+                                        <div class="comment__header-right">{{trans('message.date')}}: <span>
+                                         @php
+                                        if ($location == "en") {
+                                            echo date('Y-M-d g:i a', strtotime($comment->created_at));
+                                        } else {
+
+                                        $months = array( 1 => 'Янв' , 'Фев' , 'Мар' , 'Апр' , 'Май' , 'Июнь' , 'Июль' , 'Авг' , 'Сент' , 'Окт' , 'Нояб' , 'Дек' );
+
+
+                                            echo date("Y-" . $months[date( 'n' )] ."-d H:i:s", strtotime($comment->created_at));
+                                         }
+                                        @endphp
+                                        </span></div>
                                     </div>
                                     <div class="comment-body">
                                         {{$comment->comment}}
@@ -149,7 +161,7 @@
                             {{ csrf_field() }}
                             <div class="form-group">
                                 <label for="phone" class="col-md-4 control-label">{{trans('message.comment')}}</label>
-                                <textarea id="phone" type="text" class="form-control" name="comment" placeholder=""></textarea>
+                                <textarea  type="text" class="form-control" name="comment" placeholder=""></textarea>
                             </div>  
                             <div class="form-group">
                                 <label class="checkbox-inline">

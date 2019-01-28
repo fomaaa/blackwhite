@@ -7,7 +7,7 @@ return [
     'back' => 'Back',
     'check' => 'Check',
     'add' => 'Add',
-    'logout' => 'Выйти',
+    'logout' => 'Logout',
     'lang' => 'language',
     'check_client' => 'Check client',
     'enter_phone' => 'Enter Phone',
@@ -44,7 +44,7 @@ return [
     'add_bl' => 'Add client to black list',
     'add_wl' => 'Add client to white list',
     'choose' => 'Choose action',
-    'ph_val' => '10 numbers required',
+    'ph_val' => 'min 10 numbers required',
     'em_val' => 'Enter Email',
     'edit' => 'Edit',
     'comment' => 'Comment'

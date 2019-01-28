@@ -31,6 +31,7 @@ class HomeController extends Controller
     {
         session_start();
         $location = $this->_getLocation();
+
         App::setLocale($location);
         $fp = LAConfigs::where('key', 'sitename_part2')->first();
         
@@ -96,7 +97,7 @@ class HomeController extends Controller
             if ($data['mark']) {
                 $data['mark'] = $data['mark']->status;
             } else {
-                if ($this->_getLocation() == 'ru') {
+                if ($this->_getLocation() == 'en') {
                     $data['mark'] = 'You can leave a personal note for this user.';
                 } else {
                     $data['mark'] = 'Вы можете оставить личную пометку для этого пользователя';
@@ -213,6 +214,22 @@ class HomeController extends Controller
 
         $photos =  $this->uploadFiles($request);
         $photos ? '' : $photos = "";
+        if (!$phone || !$email) {
+            if ($this->_getLocation() == 'en') {
+                return redirect()->back()->withErrors('Phone or email required!');
+            } else {
+                return redirect()->back()->withErrors('Для размещения отзыва необходимо добавить телефон или email !');
+            }
+        }
+        if ($email) {
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                if ($this->_getLocation() == 'en') {
+                    return redirect()->back()->withErrors('Valid email required!');
+                } else {
+                    return redirect()->back()->withErrors('Введите корректный email !');
+                } 
+            }
+        }
 
         if ($phone) {
             $is_client  = Client::where('phone', $phone)->first();
@@ -292,11 +309,21 @@ class HomeController extends Controller
 
         $photos =  $this->uploadFiles($request);
         $photos ? '' : $photos = "";
+
         if (!$phone || !$email) {
-            if ($this->_getLocation() == 'ru') {
+            if ($this->_getLocation() == 'en') {
                 return redirect()->back()->withErrors('Phone or email required!');
             } else {
                 return redirect()->back()->withErrors('Для размещения отзыва необходимо добавить телефон или email !');
+            }
+        }
+        if ($email) {
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                if ($this->_getLocation() == 'en') {
+                    return redirect()->back()->withErrors('Valid email required!');
+                } else {
+                    return redirect()->back()->withErrors('Введите корректный email !');
+                } 
             }
         }
         if ($phone) {

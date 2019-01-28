@@ -19,14 +19,14 @@
                         <div class="col-md-4 col-12">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <button class="btn btn-primary info-btn" type="button">
+                                    <div class="btn-custom custom-darkblue  info-btn">
                                         <?php echo e(trans('message.reviews')); ?> <span class="badge"><?php echo e($data['reviewCount']); ?></span>
-                                    </button>
+                                    </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <button class="btn btn-info info-btn" type="button">
+                                    <div class="btn-custom  custom-blue  info-btn" >
                                         <?php echo e(trans('message.comments')); ?> <span class="badge"><?php echo e($data['commentsCount']); ?></span>
-                                    </button> 
+                                    </div> 
                                 </div>
                             </div>
                         </div>
@@ -142,7 +142,19 @@
 
                                             <?php endif; ?>  
                                         </span></div>
-                                        <div class="comment__header-right"><?php echo e(trans('message.date')); ?>: <span><?php echo e($comment->created_at); ?></span></div>
+                                        <div class="comment__header-right"><?php echo e(trans('message.date')); ?>: <span>
+                                         <?php 
+                                        if ($location == "en") {
+                                            echo date('Y-M-d g:i a', strtotime($comment->created_at));
+                                        } else {
+
+                                        $months = array( 1 => 'Янв' , 'Фев' , 'Мар' , 'Апр' , 'Май' , 'Июнь' , 'Июль' , 'Авг' , 'Сент' , 'Окт' , 'Нояб' , 'Дек' );
+
+
+                                            echo date("Y-" . $months[date( 'n' )] ."-d H:i:s", strtotime($comment->created_at));
+                                         }
+                                         ?>
+                                        </span></div>
                                     </div>
                                     <div class="comment-body">
                                         <?php echo e($comment->comment); ?>
@@ -157,7 +169,7 @@
 
                             <div class="form-group">
                                 <label for="phone" class="col-md-4 control-label"><?php echo e(trans('message.comment')); ?></label>
-                                <textarea id="phone" type="text" class="form-control" name="comment" placeholder=""></textarea>
+                                <textarea  type="text" class="form-control" name="comment" placeholder=""></textarea>
                             </div>  
                             <div class="form-group">
                                 <label class="checkbox-inline">
