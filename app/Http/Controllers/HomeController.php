@@ -214,13 +214,24 @@ class HomeController extends Controller
 
         $photos =  $this->uploadFiles($request);
         $photos ? '' : $photos = "";
-        if (!$phone || !$email) {
+
+        if (!$phone && !$email) {
             if ($this->_getLocation() == 'en') {
                 return redirect()->back()->withErrors('Phone or email required!');
             } else {
                 return redirect()->back()->withErrors('Для размещения отзыва необходимо добавить телефон или email !');
             }
         }
+        if ($phone) {
+            if (strlen($phone) < 11) {
+                if ($this->_getLocation() == 'en') {
+                    return redirect()->back()->withErrors('You must enter 10 digits of the phone');
+                } else {
+                    return redirect()->back()->withErrors('Телефон не может быть меньше 10 цифр');
+                } 
+            }
+        }
+
         if ($email) {
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 if ($this->_getLocation() == 'en') {
@@ -310,13 +321,24 @@ class HomeController extends Controller
         $photos =  $this->uploadFiles($request);
         $photos ? '' : $photos = "";
 
-        if (!$phone || !$email) {
+        if (!$phone && !$email) {
             if ($this->_getLocation() == 'en') {
                 return redirect()->back()->withErrors('Phone or email required!');
             } else {
                 return redirect()->back()->withErrors('Для размещения отзыва необходимо добавить телефон или email !');
             }
         }
+
+        if ($phone) {
+            if (strlen($phone) < 11) {
+                if ($this->_getLocation() == 'en') {
+                    return redirect()->back()->withErrors('You must enter 10 digits of the phone');
+                } else {
+                    return redirect()->back()->withErrors('Телефон не может быть меньше 10 цифр');
+                } 
+            }
+        }
+
         if ($email) {
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 if ($this->_getLocation() == 'en') {
