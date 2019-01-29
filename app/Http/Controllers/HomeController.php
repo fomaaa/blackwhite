@@ -245,17 +245,16 @@ class HomeController extends Controller
         if ($phone) {
             $is_client  = Client::where('phone', $phone)->first();
 
-            if (!$is_client) {
+            if (!$is_client && $email) {
                 $is_client  = Client::where('email', $email)->first();
                 if ($is_client) {
-                    // dd($is_client);
                     $is_client->update(['phone' => $phone]);
                 }
-                //update phone here
             }
         } else if ($email) {
             $is_client  = Client::where('email', $email)->first();
         }
+
 
         if ($is_client) {
             $clientID =  $is_client->id;
@@ -348,16 +347,15 @@ class HomeController extends Controller
                 } 
             }
         }
+        
         if ($phone) {
             $is_client  = Client::where('phone', $phone)->first();
 
-            if (!$is_client) {
+            if (!$is_client && $email) {
                 $is_client  = Client::where('email', $email)->first();
                 if ($is_client) {
-                    // dd($is_client);
                     $is_client->update(['phone' => $phone]);
                 }
-                //update phone here
             }
         } else if ($email) {
             $is_client  = Client::where('email', $email)->first();
