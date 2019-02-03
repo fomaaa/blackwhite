@@ -115,6 +115,7 @@
 						@la_display($module, 'com_count')
 						@la_display($module, 'rev_count')
 						@la_display($module, 'last_login')
+						@la_display($module, 'phone')
 					</div>
 				</div>
 			</div>

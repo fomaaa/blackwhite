@@ -27,6 +27,7 @@ $(document).ready(function(){
 	})
 
 
+
 	$('#addform .form-control, #addform [type="radio"]').on('change', function(e){
 		var that = $(this);
 		var val = that.val();

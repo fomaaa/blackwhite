@@ -17,7 +17,8 @@ class CreateReviewsTable extends Migration
      */
     public function up()
     {
-        Module::generate("Reviews", 'reviews', 'review', 'fa-cube', [
+        Module::generate("Reviews", 'reviews', 'author', 'fa-cube', [
+            ["list", "List", "Dropdown", false, "Black", 0, 0, true, ["Black","White"]],
             ["client", "Client", "Dropdown", false, "", 0, 0, false, "@clients"],
             ["status", "Status", "Dropdown", false, "", 0, 0, false, "@statuses"],
             ["photos", "Photos", "Files", false, "", 0, 0, false],
@@ -25,7 +26,7 @@ class CreateReviewsTable extends Migration
             ["email", "E-mail", "Email", false, "", 0, 256, false],
             ["address", "Address", "Dropdown", false, "", 0, 0, false, "@cities"],
             ["links", "Links", "Textarea", false, "", 0, 0, false],
-            ["review", "Review", "Textarea", false, "", 0, 0, true],
+            ["review", "Review", "Textarea", false, "", 0, 0, false],
             ["author", "Author", "Dropdown", false, "", 0, 256, false, "@users"],
             ["anon", "Anonymously", "Radio", false, "", 0, 0, false, ["Yes","No"]],
         ]);

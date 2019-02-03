@@ -15,6 +15,9 @@
                                 </ul>
                             </div>
                         <?php endif; ?>
+                        <?php if(Session::has('message')): ?>
+                           <div class="alert alert-info"><?php echo e(Session::get('message')); ?></div>
+                        <?php endif; ?>
                     </div>
                 </div>
                 <div class="panel-body">
@@ -23,7 +26,7 @@
 
 
                         <div class="form-group<?php echo e($errors->has('email') ? ' has-error' : ''); ?>">
-                            <label for="email" class="col-md-4 control-label">Username</label>
+                            <label for="email" class="col-md-4 control-label"><?php echo e(trans('message.name')); ?> </label>
 
                             <div class="col-md-6">
                                 <input id="name" type="text" class="form-control" name="name" value="<?php echo e(old('email')); ?>">
@@ -37,7 +40,7 @@
                         </div>
 
                         <div class="form-group<?php echo e($errors->has('password') ? ' has-error' : ''); ?>">
-                            <label for="password" class="col-md-4 control-label">Password</label>
+                            <label for="password" class="col-md-4 control-label"><?php echo e(trans('message.password')); ?> </label>
 
                             <div class="col-md-6">
                                 <input id="password" type="password" class="form-control" name="password">
@@ -50,25 +53,32 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-     
-                        </div>
 
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-md-2 col-xs-4 col-md-offset-4 col-xs-offset-1">
                                     <button type="submit" class="btn btn-primary">
-                                        <i class="fa fa-btn fa-sign-in"></i> Login
+                                        <i class="fa fa-btn fa-sign-in"></i> <?php echo e(trans('message.login')); ?> 
                                     </button>
                                 </div>
                                 <div class="col-md-6 col-xs-7">
                                     <div class="checkbox">
                                         <label>
-                                            <input type="checkbox" name="remember"> Remember Me
+                                            <input type="checkbox" name="remember"><?php echo e(trans('message.remember_me')); ?> 
                                         </label>
                                     </div>
                             </div>
                             </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-xs-12 col-md-3 col-md-offset-5 text-center">
+                                <a href="/restore">Restore password</a>
+                                    
+                                </div>
+                            </div>
+     
                         </div>
                     </form>
                 </div>

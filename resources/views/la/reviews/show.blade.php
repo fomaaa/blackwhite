@@ -107,6 +107,7 @@
 						<h4>General Info</h4>
 					</div>
 					<div class="panel-body">
+						@la_display($module, 'list')
 						@la_display($module, 'client')
 						@la_display($module, 'status')
 						@la_display($module, 'photos')

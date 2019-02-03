@@ -25,7 +25,7 @@
 <div class="box box-success">
 	<!--<div class="box-header"></div>-->
 	<div class="box-body">
-		<table id="example1" class="table table-bordered">
+		<table id="review_container" class="table table-bordered">
 		<thead>
 		<tr class="success">
 			<?php foreach( $listing_cols as $col ): ?>
@@ -58,6 +58,7 @@
                     <?php echo LAFormMaker::form($module); ?>
 					
 					<?php /*
+					<?php echo LAFormMaker::input($module, 'list'); ?>
 					<?php echo LAFormMaker::input($module, 'client'); ?>
 					<?php echo LAFormMaker::input($module, 'status'); ?>
 					<?php echo LAFormMaker::input($module, 'photos'); ?>
@@ -93,7 +94,8 @@
 <script src="<?php echo e(asset('la-assets/plugins/datatables/datatables.min.js')); ?>"></script>
 <script>
 $(function () {
-	$("#example1").DataTable({
+	$("#review_container").DataTable({
+		order : [['0', 'desc']],
 		processing: true,
         serverSide: true,
         ajax: "<?php echo e(url(config('laraadmin.adminRoute') . '/review_dt_ajax')); ?>",

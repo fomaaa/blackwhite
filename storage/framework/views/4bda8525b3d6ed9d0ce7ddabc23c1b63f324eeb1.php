@@ -2,6 +2,7 @@
     <meta charset="UTF-8">
     <title><?php if (! empty(trim($__env->yieldContent('htmlheader_title')))): ?><?php echo $__env->yieldContent('htmlheader_title'); ?> - <?php endif; ?><?php echo e(LAConfigs::getByKey('sitename')); ?></title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+    <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
     <!-- Bootstrap 3.3.4 -->
     <link href="<?php echo e(asset('la-assets/css/bootstrap.css')); ?>" rel="stylesheet" type="text/css" />
     
