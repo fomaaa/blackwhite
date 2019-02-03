@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App;
 use View;
+use Mail;
+use Validator;
+use Session;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Models\City;
@@ -12,12 +15,16 @@ use App\Models\Review;
 use App\Models\Comment;
 use App\Models\Personal_status;
 use App\Models\Status;
+use App\Models\Reset;
 use App\User;
+use App\Role;
 use App\Models\Upload;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Input;
 use Dwij\Laraadmin\Models\LAConfigs;
+use Dwij\Laraadmin\Models\Module;
+use Dwij\Laraadmin\Models\ModuleFields;
 
 
 class HomeController extends Controller
@@ -63,6 +70,9 @@ class HomeController extends Controller
         return view('front/add');
     }
 
+    public function error() {
+        return view('layouts/error');
+    }
     public function editStatus(request $request)
     {
         $status = $request->status;
@@ -78,6 +88,125 @@ class HomeController extends Controller
 
 
         return $res;
+    }
+
+    public function resetPassword() {
+        return view('auth/passwords/reset');
+    }
+
+    public function newPassword(request $request) {
+
+        $this->validate($request,[
+            'email' => 'required|email|max:255',
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+
+        if ($user && $user->type != 'Admin' && $user->type != 'SuperAdmin') {
+            $hash  = md5(date('YmdY') . $request->email . (time()*rand(0, 228)));
+
+            Reset::updateOrCreate([
+                'email' => $request->email,
+            ] , [
+                'token' => $hash
+            ] );  
+            echo $link = url('/') . '/new-password?token=' . $hash; 
+            return view('layouts/message', ['message' => trans('message.check_email')]);
+
+            // Mail::send('emails.reset', ['user' => $user], function ($m) use ($user) {
+            //     $m->from('info@bw.ru', 'Your Application');
+
+            //     $m->to($user->email, $user->name)->subject('Restore password');
+            // });
+            // dd($hash);
+
+        } else {
+             return redirect()->back()->withErrors('This user does not exist');
+        }
+    }
+
+    public function createPassword(request $request) {
+        if ($request->token) {
+
+            $check = Reset::where('token', $request->token)->first();
+            if ($check) {
+                return view('auth/new', ['token' => $request->token]);
+            } else {
+                return redirect('/restore')->withErrors('Something went wrong');
+            }
+        } else {
+            return redirect('/restore')->withErrors('Something went wrong');
+        }
+
+    }
+    public function destroyReview(request $request) {
+        if(Module::hasAccess("Reviews", "delete") && $request->id) {
+            Review::find($request->id)->delete();
+            
+            // Redirecting to index() method
+            return array('status' => 'true');
+        } 
+    }
+
+    public function destroyComment(request $request) {
+        if(Module::hasAccess("Comments", "delete") && $request->id) {
+            Comment::find($request->id)->delete();
+            
+            // Redirecting to index() method
+            return array('status' => 'true');
+        }
+    }
+
+
+    public function createNewPassword(request $request) {
+        $this->validate($request,[
+            'password' => 'required|min:6|confirmed',
+        ]);
+        $check = Reset::where('token', $request->token)->first();
+
+        if ($check) {
+            $user = User::where('email', $check->email)->first();
+            if ($user) {
+                $user->update([
+                    'password' => bcrypt($request->password),
+                ]);
+                Reset::where('token', $request->token)->forceDelete();
+
+                Session::flash('message', trans('message.suc_password'));
+                return redirect()->guest('/login');
+            } else {
+                return redirect('/restore')->withErrors(trans('message.sww'));
+            }
+        } else {
+            return redirect('/restore')->withErrors(trans('message.sww'));
+        }
+    }
+
+    public function registration() {
+        return view('auth/register');
+    }
+    public function create_girl(request $request) {
+        $this->validate($request,[
+            'name' => 'required|max:255|unique:users',
+            'email' => 'required|email|max:255|unique:users',
+            'password' => 'required|min:6|confirmed',
+            'phone' => 'required|min:10',
+        ]);
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'type' => 'Girl',
+            'is_ban' => 1,
+            'phone' => $request->phone,
+            'created' => date("Y-m-d H:i:s"),
+        ]);
+        $user->detachRoles();
+        $role = Role::find(2);
+        $user->attachRole($role);
+        
+        return view('layouts/error');
     }
 
     public function clients(request $request) 

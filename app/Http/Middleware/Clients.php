@@ -24,8 +24,7 @@ class Clients
 
         if (Auth::user()) {
             if (Auth::user()->is_ban) {
-                echo 'contact the administrator';
-                return abort(404);        
+                return response()->view('layouts/error', [], 500);
             }
             
         }

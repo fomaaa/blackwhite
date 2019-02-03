@@ -32,6 +32,7 @@
 					<?php echo LAFormMaker::form($module); ?>
 					
 					<?php /*
+					<?php echo LAFormMaker::input($module, 'list'); ?>
 					<?php echo LAFormMaker::input($module, 'client'); ?>
 					<?php echo LAFormMaker::input($module, 'status'); ?>
 					<?php echo LAFormMaker::input($module, 'photos'); ?>

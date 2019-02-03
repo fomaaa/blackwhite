@@ -66,6 +66,7 @@
 					<?php echo LAFormMaker::input($module, 'com_count'); ?>
 					<?php echo LAFormMaker::input($module, 'rev_count'); ?>
 					<?php echo LAFormMaker::input($module, 'last_login'); ?>
+					<?php echo LAFormMaker::input($module, 'phone'); ?>
 					*/ ?>
 				</div>
 			</div>

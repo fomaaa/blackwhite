@@ -33,6 +33,7 @@
 					@la_form($module)
 					
 					{{--
+					@la_input($module, 'list')
 					@la_input($module, 'client')
 					@la_input($module, 'status')
 					@la_input($module, 'photos')

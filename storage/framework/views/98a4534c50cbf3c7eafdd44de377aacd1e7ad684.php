@@ -60,7 +60,18 @@
                 <ul class="nav navbar-nav navbar-right">
                     <!-- Authentication Links -->
                     <?php if(Auth::guest()): ?>
-                        <li><a href="<?php echo e(url('/login')); ?>">Login</a></li>
+                        <li><a href="<?php echo e(url('/login')); ?>"><?php echo e(trans('message.login')); ?></a></li>
+                        <li><a href="<?php echo e(url('/registration')); ?>"><?php echo e(trans('message.register')); ?></a></li>
+                                                 <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                <?php echo e(trans('message.lang')); ?> <span class="caret"></span>
+                            </a>
+
+                            <ul class="dropdown-menu" role="menu">
+                                <li>  <a href="/ru">RU</a></li>
+                                <li> <a href="/en">EN</a></li>
+                            </ul>
+                        </li>
                     <?php else: ?>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -91,7 +102,7 @@
         <?php echo $__env->yieldContent('content'); ?>
     </div>
 
-    <?php if(Auth::user()): ?><footer class="page-footer  font-small blue"><?php echo e(trans('message.support')); ?> : <?php echo e($footer_phone); ?></footer> <?php endif; ?>
+    <?php if(Auth::user() &&  !Auth::user()->is_ban): ?><footer class="page-footer  font-small blue"><?php echo e(trans('message.support')); ?> : <?php echo e($footer_phone); ?></footer> <?php endif; ?>
     <!-- JavaScripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js" integrity="sha384-I6F5OKECLVtK/BL+8iSLDEHowSAfUo76ZL9+kGAgTRdiByINKJaqTPH/QVNS1VDb" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
