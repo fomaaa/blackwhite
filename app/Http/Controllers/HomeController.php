@@ -16,6 +16,7 @@ use App\Models\Comment;
 use App\Models\Personal_status;
 use App\Models\Status;
 use App\Models\Reset;
+use App\Models\SendStatus;
 use App\User;
 use App\Role;
 use App\Models\Upload;
@@ -111,14 +112,15 @@ class HomeController extends Controller
                 'token' => $hash
             ] );  
             echo $link = url('/') . '/new-password?token=' . $hash; 
+
+
+            $res = Mail::send('emails.reset', ['user' => $user, 'link' => $link], function ($m) use ($user) {
+                $m->from('bortsov-dev@mail.ru', 'Black/White List');
+
+                $m->to($user->email, $user->name)->subject('Restore password');
+            });
+
             return view('layouts/message', ['message' => trans('message.check_email')]);
-
-            // Mail::send('emails.reset', ['user' => $user], function ($m) use ($user) {
-            //     $m->from('info@bw.ru', 'Your Application');
-
-            //     $m->to($user->email, $user->name)->subject('Restore password');
-            // });
-            // dd($hash);
 
         } else {
              return redirect()->back()->withErrors('This user does not exist');
@@ -522,6 +524,19 @@ class HomeController extends Controller
                 'rev_count' => $review_count +1,
             ]);
         }
+        $users = User::where('type', 'Girl')->get(['id']);
+        
+
+        foreach ($users as $index => $user) {
+            SendStatus::insert([
+                'user_id' => $user->id,
+                'review_id' => $review->id,
+                'status' => 'waiting',
+                'created_at' => date("Y-m-d H:i:s"),
+            ]);
+        }
+
+        // $sender =  ;
         // if ($mark) {
         //     Personal_status::updateOrCreate([
         //         'user' => $user_id,
