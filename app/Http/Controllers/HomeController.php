@@ -16,6 +16,7 @@ use App\Models\Comment;
 use App\Models\Personal_status;
 use App\Models\Status;
 use App\Models\Reset;
+use App\Models\SendStatus;
 use App\User;
 use App\Role;
 use App\Models\Upload;
@@ -523,6 +524,19 @@ class HomeController extends Controller
                 'rev_count' => $review_count +1,
             ]);
         }
+        $users = User::where('type', 'Girl')->get(['id']);
+        
+
+        foreach ($users as $index => $user) {
+            SendStatus::insert([
+                'user_id' => $user->id,
+                'review_id' => $review->id,
+                'status' => 'waiting',
+                'created_at' => date("Y-m-d H:i:s"),
+            ]);
+        }
+
+        // $sender =  ;
         // if ($mark) {
         //     Personal_status::updateOrCreate([
         //         'user' => $user_id,
