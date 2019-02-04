@@ -1,12 +1,12 @@
-<?php $__env->startSection("contentheader_title", "Cities"); ?>
-<?php $__env->startSection("contentheader_description", "Cities listing"); ?>
-<?php $__env->startSection("section", "Cities"); ?>
+<?php $__env->startSection("contentheader_title", "SendStatuses"); ?>
+<?php $__env->startSection("contentheader_description", "SendStatuses listing"); ?>
+<?php $__env->startSection("section", "SendStatuses"); ?>
 <?php $__env->startSection("sub_section", "Listing"); ?>
-<?php $__env->startSection("htmlheader_title", "Cities Listing"); ?>
+<?php $__env->startSection("htmlheader_title", "SendStatuses Listing"); ?>
 
 <?php $__env->startSection("headerElems"); ?>
-<?php if(LAFormMaker::la_access("Cities", "create")) { ?>
-	<button class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#AddModal">Add City</button>
+<?php if(LAFormMaker::la_access("SendStatuses", "create")) { ?>
+	<button class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#AddModal">Add SendStatus</button>
 <?php } ?>
 <?php $__env->stopSection(); ?>
 
@@ -43,23 +43,24 @@
 	</div>
 </div>
 
-<?php if(LAFormMaker::la_access("Cities", "create")) { ?>
+<?php if(LAFormMaker::la_access("SendStatuses", "create")) { ?>
 <div class="modal fade" id="AddModal" role="dialog" aria-labelledby="myModalLabel">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="myModalLabel">Add City</h4>
+				<h4 class="modal-title" id="myModalLabel">Add SendStatus</h4>
 			</div>
-			<?php echo Form::open(['action' => 'LA\CitiesController@store', 'id' => 'city-add-form']); ?>
+			<?php echo Form::open(['action' => 'LA\SendStatusesController@store', 'id' => 'sendstatus-add-form']); ?>
 
 			<div class="modal-body">
 				<div class="box-body">
                     <?php echo LAFormMaker::form($module); ?>
 					
 					<?php /*
-					<?php echo LAFormMaker::input($module, 'english'); ?>
-					<?php echo LAFormMaker::input($module, 'russian'); ?>
+					<?php echo LAFormMaker::input($module, 'user_id'); ?>
+					<?php echo LAFormMaker::input($module, 'review_id'); ?>
+					<?php echo LAFormMaker::input($module, 'status'); ?>
 					*/ ?>
 				</div>
 			</div>
@@ -88,7 +89,7 @@ $(function () {
 	$("#example1").DataTable({
 		processing: true,
         serverSide: true,
-        ajax: "<?php echo e(url(config('laraadmin.adminRoute') . '/city_dt_ajax')); ?>",
+        ajax: "<?php echo e(url(config('laraadmin.adminRoute') . '/sendstatus_dt_ajax')); ?>",
 		language: {
 			lengthMenu: "_MENU_",
 			search: "_INPUT_",
@@ -98,7 +99,7 @@ $(function () {
 		columnDefs: [ { orderable: false, targets: [-1] }],
 		<?php endif; ?>
 	});
-	$("#city-add-form").validate({
+	$("#sendstatus-add-form").validate({
 		
 	});
 });

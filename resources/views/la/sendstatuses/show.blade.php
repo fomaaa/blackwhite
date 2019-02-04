@@ -1,19 +1,21 @@
-<?php $__env->startSection('htmlheader_title'); ?>
-	Client View
-<?php $__env->stopSection(); ?>
+@extends('la.layouts.app')
+
+@section('htmlheader_title')
+	SendStatus View
+@endsection
 
 
-<?php $__env->startSection('main-content'); ?>
+@section('main-content')
 <div id="page-content" class="profile2">
 	<div class="bg-primary clearfix">
 		<div class="col-md-4">
 			<div class="row">
 				<div class="col-md-3">
-					<!--<img class="profile-image" src="<?php echo e(asset('la-assets/img/avatar5.png')); ?>" alt="">-->
-					<div class="profile-icon text-primary"><i class="fa <?php echo e($module->fa_icon); ?>"></i></div>
+					<!--<img class="profile-image" src="{{ asset('la-assets/img/avatar5.png') }}" alt="">-->
+					<div class="profile-icon text-primary"><i class="fa {{ $module->fa_icon }}"></i></div>
 				</div>
 				<div class="col-md-9">
-					<h4 class="name"><?php echo e($client->$view_col); ?></h4>
+					<h4 class="name">{{ $sendstatus->$view_col }}</h4>
 					<div class="row stats">
 						<div class="col-md-4"><i class="fa fa-facebook"></i> 234</div>
 						<div class="col-md-4"><i class="fa fa-twitter"></i> 12</div>
@@ -31,17 +33,17 @@
 		<div class="col-md-4">
 			<!--
 			<div class="teamview">
-				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="<?php echo e(asset('la-assets/img/user1-128x128.jpg')); ?>" alt=""><i class="status-online"></i></a>
-				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="<?php echo e(asset('la-assets/img/user2-160x160.jpg')); ?>" alt=""></a>
-				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="<?php echo e(asset('la-assets/img/user3-128x128.jpg')); ?>" alt=""></a>
-				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="<?php echo e(asset('la-assets/img/user4-128x128.jpg')); ?>" alt=""><i class="status-online"></i></a>
-				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="<?php echo e(asset('la-assets/img/user5-128x128.jpg')); ?>" alt=""></a>
-				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="<?php echo e(asset('la-assets/img/user6-128x128.jpg')); ?>" alt=""></a>
-				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="<?php echo e(asset('la-assets/img/user7-128x128.jpg')); ?>" alt=""></a>
-				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="<?php echo e(asset('la-assets/img/user8-128x128.jpg')); ?>" alt=""></a>
-				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="<?php echo e(asset('la-assets/img/user5-128x128.jpg')); ?>" alt=""></a>
-				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="<?php echo e(asset('la-assets/img/user6-128x128.jpg')); ?>" alt=""><i class="status-online"></i></a>
-				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="<?php echo e(asset('la-assets/img/user7-128x128.jpg')); ?>" alt=""></a>
+				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('la-assets/img/user1-128x128.jpg') }}" alt=""><i class="status-online"></i></a>
+				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('la-assets/img/user2-160x160.jpg') }}" alt=""></a>
+				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('la-assets/img/user3-128x128.jpg') }}" alt=""></a>
+				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('la-assets/img/user4-128x128.jpg') }}" alt=""><i class="status-online"></i></a>
+				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('la-assets/img/user5-128x128.jpg') }}" alt=""></a>
+				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('la-assets/img/user6-128x128.jpg') }}" alt=""></a>
+				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('la-assets/img/user7-128x128.jpg') }}" alt=""></a>
+				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('la-assets/img/user8-128x128.jpg') }}" alt=""></a>
+				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('la-assets/img/user5-128x128.jpg') }}" alt=""></a>
+				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('la-assets/img/user6-128x128.jpg') }}" alt=""><i class="status-online"></i></a>
+				<a class="face" data-toggle="tooltip" data-placement="top" title="John Doe"><img src="{{ asset('la-assets/img/user7-128x128.jpg') }}" alt=""></a>
 			</div>
 			-->
 			<div class="dats1 pb">
@@ -79,22 +81,20 @@
 			</div>
 		</div>
 		<div class="col-md-1 actions">
-			<?php if(LAFormMaker::la_access("Clients", "edit")) { ?>
-				<a href="<?php echo e(url(config('laraadmin.adminRoute') . '/clients/'.$client->id.'/edit')); ?>" class="btn btn-xs btn-edit btn-default"><i class="fa fa-pencil"></i></a><br>
-			<?php } ?>
+			@la_access("SendStatuses", "edit")
+				<a href="{{ url(config('laraadmin.adminRoute') . '/sendstatuses/'.$sendstatus->id.'/edit') }}" class="btn btn-xs btn-edit btn-default"><i class="fa fa-pencil"></i></a><br>
+			@endla_access
 			
-			<?php if(LAFormMaker::la_access("Clients", "delete")) { ?>
-				<?php echo e(Form::open(['route' => [config('laraadmin.adminRoute') . '.clients.destroy', $client->id], 'method' => 'delete', 'style'=>'display:inline'])); ?>
-
+			@la_access("SendStatuses", "delete")
+				{{ Form::open(['route' => [config('laraadmin.adminRoute') . '.sendstatuses.destroy', $sendstatus->id], 'method' => 'delete', 'style'=>'display:inline']) }}
 					<button class="btn btn-default btn-delete btn-xs" type="submit"><i class="fa fa-times"></i></button>
-				<?php echo e(Form::close()); ?>
-
-			<?php } ?>
+				{{ Form::close() }}
+			@endla_access
 		</div>
 	</div>
 
 	<ul data-toggle="ajax-tab" class="nav nav-tabs profile" role="tablist">
-		<li class=""><a href="<?php echo e(url(config('laraadmin.adminRoute') . '/clients')); ?>" data-toggle="tooltip" data-placement="right" title="Back to Clients"><i class="fa fa-chevron-left"></i></a></li>
+		<li class=""><a href="{{ url(config('laraadmin.adminRoute') . '/sendstatuses') }}" data-toggle="tooltip" data-placement="right" title="Back to SendStatuses"><i class="fa fa-chevron-left"></i></a></li>
 		<li class="active"><a role="tab" data-toggle="tab" class="active" href="#tab-general-info" data-target="#tab-info"><i class="fa fa-bars"></i> General Info</a></li>
 		<li class=""><a role="tab" data-toggle="tab" href="#tab-timeline" data-target="#tab-timeline"><i class="fa fa-clock-o"></i> Timeline</a></li>
 	</ul>
@@ -107,8 +107,9 @@
 						<h4>General Info</h4>
 					</div>
 					<div class="panel-body">
-						<?php echo LAFormMaker::display($module, 'phone'); ?>
-						<?php echo LAFormMaker::display($module, 'email'); ?>
+						@la_display($module, 'user_id')
+						@la_display($module, 'review_id')
+						@la_display($module, 'status')
 					</div>
 				</div>
 			</div>
@@ -212,6 +213,4 @@
 	</div>
 	</div>
 </div>
-<?php $__env->stopSection(); ?>
-
-<?php echo $__env->make('la.layouts.app', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+@endsection

@@ -25,7 +25,7 @@
 <div class="box box-success">
 	<!--<div class="box-header"></div>-->
 	<div class="box-body">
-		<table id="example1" class="table table-bordered">
+		<table id="comment_container" class="table table-bordered">
 		<thead>
 		<tr class="success">
 			<?php foreach( $listing_cols as $col ): ?>
@@ -85,7 +85,8 @@
 <script src="<?php echo e(asset('la-assets/plugins/datatables/datatables.min.js')); ?>"></script>
 <script>
 $(function () {
-	$("#example1").DataTable({
+	$("#comment_container").DataTable({
+		order : [['0', 'desc']],
 		processing: true,
         serverSide: true,
         ajax: "<?php echo e(url(config('laraadmin.adminRoute') . '/comment_dt_ajax')); ?>",

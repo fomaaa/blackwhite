@@ -100,4 +100,8 @@ Route::group(['as' => $as, 'middleware' => ['auth', 'permission:ADMIN_PANEL']], 
 	/* ================== Personal_statuses ================== */
 	Route::resource(config('laraadmin.adminRoute') . '/personal_statuses', 'LA\Personal_statusesController');
 	Route::get(config('laraadmin.adminRoute') . '/personal_status_dt_ajax', 'LA\Personal_statusesController@dtajax');
+
+	/* ================== SendStatuses ================== */
+	Route::resource(config('laraadmin.adminRoute') . '/sendstatuses', 'LA\SendStatusesController');
+	Route::get(config('laraadmin.adminRoute') . '/sendstatus_dt_ajax', 'LA\SendStatusesController@dtajax');
 });

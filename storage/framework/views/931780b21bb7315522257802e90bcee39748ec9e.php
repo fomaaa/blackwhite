@@ -5,9 +5,9 @@
 		</h2>
 
 		<div style="padding: 15px 0;"> 
-			Уважаемый <b>{{$user->name}}</b>. Вы сделали запрос на получение забытого пароля на сайте bw-list Чтобы получить новый пароль, пройдите по ссылке ниже:
+			Уважаемый <b><?php echo e($user->name); ?></b>. Вы сделали запрос на получение забытого пароля на сайте bw-list Чтобы получить новый пароль, пройдите по ссылке ниже:
 		</div>
-		<a href="{{$link}}" style="width: 400px;margin:0 auto;display: block;background: #4CAF50 url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAwCAIAAABfUYfWAAAAH0lEQVQImWMw6DdgYmBgYGJkZESlmZiwijPhEB8g9QD08gGkFcH1FgAAAABJRU5ErkJggg==) repeat-x 0 0;color: #fff;font-weight:bold; line-height: 44px;text-align: center;text-transform: uppercase;text-decoration: none;border-radius: 3px;text-shadow: 0 1px 3px rgba(0,0,0,.35);border: 1px solid #388E3C;box-shadow: inset 0 1px rgba(255,255,255,.4);">
+		<a href="<?php echo e($link); ?>" style="width: 400px;margin:0 auto;display: block;background: #4CAF50 url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAwCAIAAABfUYfWAAAAH0lEQVQImWMw6DdgYmBgYGJkZESlmZiwijPhEB8g9QD08gGkFcH1FgAAAABJRU5ErkJggg==) repeat-x 0 0;color: #fff;font-weight:bold; line-height: 44px;text-align: center;text-transform: uppercase;text-decoration: none;border-radius: 3px;text-shadow: 0 1px 3px rgba(0,0,0,.35);border: 1px solid #388E3C;box-shadow: inset 0 1px rgba(255,255,255,.4);">
 			Восстановить пароль
 		</a>
 		<div style="padding: 15px 0;"> 

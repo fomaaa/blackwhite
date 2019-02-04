@@ -1,4 +1,6 @@
 <!-- REQUIRED JS SCRIPTS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js" integrity="sha384-I6F5OKECLVtK/BL+8iSLDEHowSAfUo76ZL9+kGAgTRdiByINKJaqTPH/QVNS1VDb" crossorigin="anonymous"></script>
+<script src="<?php echo e(asset('js/admin.js')); ?>" type="text/javascript"></script>
 
 <!-- jQuery 2.1.4 -->
 <script src="<?php echo e(asset('la-assets/plugins/jQuery/jQuery-2.1.4.min.js')); ?>"></script>
