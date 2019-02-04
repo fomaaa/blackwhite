@@ -19,6 +19,8 @@ class CreateUsersTable extends Migration
     {
         Module::generate("Users", 'users', 'name', 'fa-group', [
             ["name", "Name", "Name", true, "", 3, 250, true],
+            ["email", "Email", "Email", true, "", 0, 256, false],
+            ["phone", "Phone", "Mobile", false, "", 0, 20, false],
             ["password", "Password", "TextField", false, "", 6, 250, true],
             ["type", "User Type", "Dropdown", false, "Girl", 0, 0, true, ["Girl","Admin"]],
             ["is_ban", "is_ban", "Integer", false, "0", 0, 11, true],
@@ -26,7 +28,6 @@ class CreateUsersTable extends Migration
             ["com_count", "Comments count", "TextField", false, "0", 0, 256, false],
             ["rev_count", "Reviews count", "TextField", false, "0", 0, 256, false],
             ["last_login", "Last visit", "TextField", false, "none", 0, 256, false],
-            ["phone", "Phone", "Mobile", false, "", 0, 20, false],
         ]);
 		
 		/*

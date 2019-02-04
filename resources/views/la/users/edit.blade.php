@@ -34,6 +34,8 @@
 					
 					{{--
 					@la_input($module, 'name')
+					@la_input($module, 'email')
+					@la_input($module, 'phone')
 					@la_input($module, 'password')
 					@la_input($module, 'type')
 					@la_input($module, 'is_ban')
@@ -41,7 +43,6 @@
 					@la_input($module, 'com_count')
 					@la_input($module, 'rev_count')
 					@la_input($module, 'last_login')
-					@la_input($module, 'phone')
 					--}}
                     <br>
 					<div class="form-group">

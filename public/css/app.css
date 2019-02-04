@@ -178,6 +178,11 @@ footer {
     border-color: #204d74;
 
 }
+input[name="is_ban"], label[for="is_ban"] {
+	display: none;
+}
+
+
 @media(max-width: 768px) {
 	.check-btn {
 		margin-top: 10px;

@@ -6,6 +6,8 @@ $.ajaxSetup({
 });
 
 $(document).ready(function(){
+
+
 	$("#phone").mask("+9999999999999999999");
 
 	$('.next-tab').on('click', function(e){
