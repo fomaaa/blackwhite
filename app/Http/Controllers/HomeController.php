@@ -391,25 +391,13 @@ class HomeController extends Controller
                 return redirect()->back()->withErrors('Для размещения отзыва необходимо добавить телефон или email !');
             }
         }
-        if ($phone) {
-            if (strlen($phone) < 11) {
-                if ($this->_getLocation() == 'en') {
-                    return redirect()->back()->withErrors('You must enter 10 digits of the phone');
-                } else {
-                    return redirect()->back()->withErrors('Телефон не может быть меньше 10 цифр');
-                } 
-            }
-        }
+        $this->validate($request,[
+            'email' => 'email|max:255',
+            'phone' => 'min:11',
+            'description' => 'max:2000',
+            'link' => 'max:1000'
+        ]);
 
-        if ($email) {
-            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                if ($this->_getLocation() == 'en') {
-                    return redirect()->back()->withErrors('Valid email required!');
-                } else {
-                    return redirect()->back()->withErrors('Введите корректный email !');
-                } 
-            }
-        }
 
         if ($phone) {
             $is_client  = Client::where('phone', $phone)->first();
@@ -497,25 +485,13 @@ class HomeController extends Controller
             }
         }
 
-        if ($phone) {
-            if (strlen($phone) < 11) {
-                if ($this->_getLocation() == 'en') {
-                    return redirect()->back()->withErrors('You must enter 10 digits of the phone');
-                } else {
-                    return redirect()->back()->withErrors('Телефон не может быть меньше 10 цифр');
-                } 
-            }
-        }
+        $this->validate($request,[
+            'email' => 'email|max:255',
+            'phone' => 'min:11',
+            'description' => 'max:2000',
+            'link' => 'max:1000'
+        ]);
 
-        if ($email) {
-            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                if ($this->_getLocation() == 'en') {
-                    return redirect()->back()->withErrors('Valid email required!');
-                } else {
-                    return redirect()->back()->withErrors('Введите корректный email !');
-                } 
-            }
-        }
         
         if ($phone) {
             $is_client  = Client::where('phone', $phone)->first();
