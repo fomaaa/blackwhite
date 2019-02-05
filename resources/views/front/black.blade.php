@@ -28,7 +28,7 @@
                             <label for="phone" class="col-md-4 control-label">{{trans('message.phone')}}</label>
 
                             <div class="col-md-6">
-                                <input id="phone" type="text" required class="form-control" name="phone" placeholder="+97100000000">
+                                <input id="phone" type="text" required class="form-control" value="{{ old('phone') }}" name="phone" placeholder="+97100000000">
 
                                 @if ($errors->has('phone'))
                                     <span class="help-block">
@@ -41,7 +41,7 @@
                             <label for="phone" class="col-md-4 control-label">{{trans('message.cl_email')}}</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="text" class="form-control" name="email" placeholder="client@mail.com">
+                                <input id="email" type="text" class="form-control" name="email" value="{{ old('email') }}" placeholder="client@mail.com">
 
                                 @if ($errors->has('email'))
                                     <span class="help-block">
@@ -68,14 +68,24 @@
                         <div class="form-group">
                         	<label for="link" class="col-md-4 control-label">{{trans('message.socials')}}</label>
                         	<div class="col-md-6">
- 								<textarea id="link" type="text" class="form-control" rows="3" name="link" ></textarea>
+ 								<textarea id="link" type="text" class="form-control" value="{{ old('link') }}" rows="3" name="link" ></textarea>
 							</div>
+                             @if ($errors->has('link'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('link') }}</strong>
+                                    </span>
+                                @endif
                         </div>
                         <div class="form-group">
                         	<label for="description" class="col-md-4 control-label">{{trans('message.review')}}</label>
                         	<div class="col-md-6">
- 								<textarea class="form-control" rows="3" id="description" type="text"  name="description"></textarea>
+ 								<textarea class="form-control" rows="3" id="description" value="{{ old('description') }}" type="text"  name="description"></textarea>
  							</div>
+                                 @if ($errors->has('description'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('description') }}</strong>
+                                    </span>
+                                @endif
                         </div>
                         <div class="form-group">
                             <label for="phone" class="col-md-4 control-label">{{trans('message.status')}}</label>
