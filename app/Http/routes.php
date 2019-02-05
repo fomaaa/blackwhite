@@ -30,6 +30,7 @@ Route::group(['middleware' => ['guest']], function () {
 	Route::post('/restore', 'HomeController@newPassword');
 	Route::get('/new-password', 'HomeController@createPassword');
 	Route::post('/new-password', 'HomeController@createNewPassword');
+	Route::get('/confirmed-email', 'HomeController@confirmedEmail');
 });
 
 

@@ -28,6 +28,7 @@ class CreateUsersTable extends Migration
             ["com_count", "Comments count", "TextField", false, "0", 0, 256, false],
             ["rev_count", "Reviews count", "TextField", false, "0", 0, 256, false],
             ["last_login", "Last visit", "TextField", false, "none", 0, 256, false],
+            ["email_confirmed", "Email Confirmed", "Dropdown", false, "No", 0, 0, false, ["No","Yes"]],
         ]);
 		
 		/*

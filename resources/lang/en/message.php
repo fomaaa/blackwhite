@@ -62,4 +62,6 @@ return [
     'reset' => 'Reset password',
     'check_email' => 'Check your mail',
     'new_password' => 'New Password',
+    'confirmed' => 'A letter has been sent to your email. To confirm your mail, follow the link in the email.',
+    'succses_confirmed' => 'Your email has been successfully confirmed!',
 ];

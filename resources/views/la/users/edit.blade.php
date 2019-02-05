@@ -43,6 +43,7 @@
 					@la_input($module, 'com_count')
 					@la_input($module, 'rev_count')
 					@la_input($module, 'last_login')
+					@la_input($module, 'email_confirmed')
 					--}}
                     <br>
 					<div class="form-group">

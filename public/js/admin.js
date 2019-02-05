@@ -1,10 +1,10 @@
 	$('#add_user').on('click', function(){
-		console.log('click')
 		$('[name="is_ban"]').parents('.form-group').hide();
 		$('[name="created"]').parents('.form-group').hide();
 		$('[name="com_count"]').parents('.form-group').hide();
 		$('[name="rev_count"]').parents('.form-group').hide();
 		$('[name="last_login"]').parents('.form-group').hide();
+		$('[for="email_confirmed"]').parents('.form-group').hide();
 	})
 
 	$(document).on('submit', '#review_container td form', function(e) {

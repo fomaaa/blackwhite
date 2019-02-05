@@ -55,7 +55,7 @@
 			</div>
 			{!! Form::open(['action' => 'LA\UsersController@store', 'id' => 'user-add-form']) !!}
 			<div class="modal-body">
-				<div class="box-body user-modal">
+				<div class="box-body">
                     @la_form($module)
 					
 					{{--
@@ -64,10 +64,12 @@
 					@la_input($module, 'phone')
 					@la_input($module, 'password')
 					@la_input($module, 'type')
+					@la_input($module, 'is_ban')
 					@la_input($module, 'created')
 					@la_input($module, 'com_count')
 					@la_input($module, 'rev_count')
 					@la_input($module, 'last_login')
+					@la_input($module, 'email_confirmed')
 					--}}
 				</div>
 			</div>
