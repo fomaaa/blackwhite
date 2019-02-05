@@ -7,6 +7,7 @@ use View;
 use Mail;
 use Validator;
 use Session;
+use DB;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Models\City;
@@ -207,8 +208,45 @@ class HomeController extends Controller
         $user->detachRoles();
         $role = Role::find(2);
         $user->attachRole($role);
-        
-        return view('layouts/error');
+
+        $hash = md5(date('Ymdd') . $user->id . $request->email . rand(0, 228));
+
+        DB::table('email_confirmed')->insert([
+            'user_id' => $user->id,
+            'hash' => $hash
+        ]);
+
+        $link = url('/') . '/confirmed-email?token=' . $hash; 
+
+        $res = Mail::send('emails.confirmed', ['user' => $user, 'link' => $link], function ($m) use ($user) {
+           $m->from('bortsov-dev@mail.ru', 'Black/White List');
+
+            $m->to($user->email, $user->name)->subject('Confirmed email');
+        });
+
+        return view('layouts/confirmed');
+    }
+
+    public function confirmedEmail(request $request)
+    {
+        if ($request->token) {
+            $user = DB::table('email_confirmed')->where('hash', $request->token)->first();
+
+            if ($user) {
+                if ($user->hash == $request->token) {
+                    DB::table('users')->where('id', $user->user_id)->update([
+                        'email_confirmed' => 'Yes'
+                    ]);
+                    DB::table('email_confirmed')->where('id', $user->id)->delete();
+                }
+                Session::flash('message', trans('message.succses_confirmed'));
+                return redirect()->guest('/login');
+            } else {
+                return response()->view('layouts/error', [], 500);
+            }
+
+
+        }
     }
 
     public function clients(request $request) 
