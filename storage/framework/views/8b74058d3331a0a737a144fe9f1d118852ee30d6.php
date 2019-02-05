@@ -7,8 +7,8 @@
 
                 <div class="panel-body">
                    <div class="row">
-                       <div class="col-md-6 text-center"><a href="/check"><button type="button" class="btn btn-lg btn-success big-btn"><?php echo e(trans('message.check')); ?></button></a></div>
-                       <div class="col-md-6 text-center"><a href="/add"><button type="button" class="btn btn-lg btn-warning big-btn"><?php echo e(trans('message.add')); ?></button></a></div>
+                       <div class="col-md-6 text-center"><a href="/add/black"><button type="button" class="btn  btn-lg btn-black big-btn"><?php echo e(trans('message.bl')); ?></button></a></div>
+                       <div class="col-md-6 text-center"><a href="/add/white"><button type="button" class="btn big-btn btn-lg btn-default  "><?php echo e(trans('message.wl')); ?></button></a></div>
                    </div>
                 </div>
             </div>

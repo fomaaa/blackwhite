@@ -6,7 +6,7 @@
 
 <?php $__env->startSection("headerElems"); ?>
 <?php if(LAFormMaker::la_access("Users", "create")) { ?>
-	<button class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#AddModal">Add User</button>
+	<button class="btn btn-success btn-sm pull-right" id="add_user" data-toggle="modal" data-target="#AddModal">Add User</button>
 <?php } ?>
 <?php $__env->stopSection(); ?>
 
@@ -54,19 +54,19 @@
 			<?php echo Form::open(['action' => 'LA\UsersController@store', 'id' => 'user-add-form']); ?>
 
 			<div class="modal-body">
-				<div class="box-body">
+				<div class="box-body user-modal">
                     <?php echo LAFormMaker::form($module); ?>
 					
 					<?php /*
 					<?php echo LAFormMaker::input($module, 'name'); ?>
+					<?php echo LAFormMaker::input($module, 'email'); ?>
+					<?php echo LAFormMaker::input($module, 'phone'); ?>
 					<?php echo LAFormMaker::input($module, 'password'); ?>
 					<?php echo LAFormMaker::input($module, 'type'); ?>
-					<?php echo LAFormMaker::input($module, 'is_ban'); ?>
 					<?php echo LAFormMaker::input($module, 'created'); ?>
 					<?php echo LAFormMaker::input($module, 'com_count'); ?>
 					<?php echo LAFormMaker::input($module, 'rev_count'); ?>
 					<?php echo LAFormMaker::input($module, 'last_login'); ?>
-					<?php echo LAFormMaker::input($module, 'phone'); ?>
 					*/ ?>
 				</div>
 			</div>
