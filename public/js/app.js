@@ -141,7 +141,7 @@ $(document).ready(function(){
 		e.preventDefault();
 		var phone = $(this).find('#phone').val();
 		var length = phone.length;
-		if (length >= '12') {
+		if (1 == 1) {
 			$(this).find('input').removeClass('message');
 			$(this).find('.error').hide();
 			

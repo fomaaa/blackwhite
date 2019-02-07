@@ -145,7 +145,7 @@
                                         $months = array( 1 => 'Янв' , 'Фев' , 'Мар' , 'Апр' , 'Май' , 'Июнь' , 'Июль' , 'Авг' , 'Сент' , 'Окт' , 'Нояб' , 'Дек' );
 
 
-                                            echo date("Y-" . $months[date( 'n' )] ."-d H:i:s", strtotime($comment->created_at));
+                                            echo date("Y-" . $months[date( 'n' )] ."-d H:i", strtotime($comment->created_at));
                                          }
                                         @endphp
                                         </span></div>

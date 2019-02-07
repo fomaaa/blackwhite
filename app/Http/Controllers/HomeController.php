@@ -393,7 +393,6 @@ class HomeController extends Controller
         }
         $this->validate($request,[
             'email' => 'email|max:255',
-            'phone' => 'min:11',
             'description' => 'max:2000',
             'link' => 'max:1000'
         ]);
@@ -487,7 +486,6 @@ class HomeController extends Controller
 
         $this->validate($request,[
             'email' => 'email|max:255',
-            'phone' => 'min:11',
             'description' => 'max:2000',
             'link' => 'max:1000'
         ]);

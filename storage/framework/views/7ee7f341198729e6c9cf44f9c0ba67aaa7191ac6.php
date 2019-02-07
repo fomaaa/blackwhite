@@ -27,7 +27,7 @@
                                         $months = array( 1 => 'Янв' , 'Фев' , 'Мар' , 'Апр' , 'Май' , 'Июнь' , 'Июль' , 'Авг' , 'Сент' , 'Окт' , 'Нояб' , 'Дек' );
 
 
-                                            echo date("Y-" . $months[date( 'n' )] ."-d H:i:s", strtotime($client->created_at));
+                                            echo date("Y-" . $months[date( 'n' )] ."-d H:i", strtotime($client->created_at));
                                          }
                                          ?>
                                     </div>
