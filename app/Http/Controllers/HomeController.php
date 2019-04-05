@@ -193,7 +193,7 @@ class HomeController extends Controller
             'name' => 'required|max:255|unique:users',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
-            'phone' => 'required|min:10',
+            'phone' => 'required',
         ]);
 
         $user = User::create([

@@ -63,23 +63,12 @@
 					<?php echo LAFormMaker::input($module, 'status'); ?>
 					<?php echo LAFormMaker::input($module, 'photos'); ?>
 					<?php echo LAFormMaker::input($module, 'phone'); ?>
-<<<<<<< HEAD:storage/framework/views/08ef12a38a962815d8d4a74ddb19d76dd0501f38.php
 					<?php echo LAFormMaker::input($module, 'email'); ?>
 					<?php echo LAFormMaker::input($module, 'address'); ?>
 					<?php echo LAFormMaker::input($module, 'links'); ?>
 					<?php echo LAFormMaker::input($module, 'review'); ?>
 					<?php echo LAFormMaker::input($module, 'author'); ?>
 					<?php echo LAFormMaker::input($module, 'anon'); ?>
-=======
-					<?php echo LAFormMaker::input($module, 'password'); ?>
-					<?php echo LAFormMaker::input($module, 'type'); ?>
-					<?php echo LAFormMaker::input($module, 'is_ban'); ?>
-					<?php echo LAFormMaker::input($module, 'created'); ?>
-					<?php echo LAFormMaker::input($module, 'com_count'); ?>
-					<?php echo LAFormMaker::input($module, 'rev_count'); ?>
-					<?php echo LAFormMaker::input($module, 'last_login'); ?>
-					<?php echo LAFormMaker::input($module, 'email_confirmed'); ?>
->>>>>>> dd86093d79fc1df4dbe2cd66058566ba2b016bdd:storage/framework/views/7ce04d5adb9e890bc491288d4970f3a956ae800b.php
 					*/ ?>
 				</div>
 			</div>

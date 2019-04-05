@@ -1,12 +1,12 @@
-<?php $__env->startSection("contentheader_title", "Reviews"); ?>
-<?php $__env->startSection("contentheader_description", "Reviews listing"); ?>
-<?php $__env->startSection("section", "Reviews"); ?>
+<?php $__env->startSection("contentheader_title", "Statuses"); ?>
+<?php $__env->startSection("contentheader_description", "Statuses listing"); ?>
+<?php $__env->startSection("section", "Statuses"); ?>
 <?php $__env->startSection("sub_section", "Listing"); ?>
-<?php $__env->startSection("htmlheader_title", "Reviews Listing"); ?>
+<?php $__env->startSection("htmlheader_title", "Statuses Listing"); ?>
 
 <?php $__env->startSection("headerElems"); ?>
-<?php if(LAFormMaker::la_access("Reviews", "create")) { ?>
-	<button class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#AddModal">Add Review</button>
+<?php if(LAFormMaker::la_access("Statuses", "create")) { ?>
+	<button class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#AddModal">Add Status</button>
 <?php } ?>
 <?php $__env->stopSection(); ?>
 
@@ -25,7 +25,7 @@
 <div class="box box-success">
 	<!--<div class="box-header"></div>-->
 	<div class="box-body">
-		<table id="review_container" class="table table-bordered">
+		<table id="example1" class="table table-bordered">
 		<thead>
 		<tr class="success">
 			<?php foreach( $listing_cols as $col ): ?>
@@ -43,32 +43,23 @@
 	</div>
 </div>
 
-<?php if(LAFormMaker::la_access("Reviews", "create")) { ?>
+<?php if(LAFormMaker::la_access("Statuses", "create")) { ?>
 <div class="modal fade" id="AddModal" role="dialog" aria-labelledby="myModalLabel">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="myModalLabel">Add Review</h4>
+				<h4 class="modal-title" id="myModalLabel">Add Status</h4>
 			</div>
-			<?php echo Form::open(['action' => 'LA\ReviewsController@store', 'id' => 'review-add-form']); ?>
+			<?php echo Form::open(['action' => 'LA\StatusesController@store', 'id' => 'status-add-form']); ?>
 
 			<div class="modal-body">
 				<div class="box-body">
                     <?php echo LAFormMaker::form($module); ?>
 					
 					<?php /*
-					<?php echo LAFormMaker::input($module, 'list'); ?>
-					<?php echo LAFormMaker::input($module, 'client'); ?>
-					<?php echo LAFormMaker::input($module, 'status'); ?>
-					<?php echo LAFormMaker::input($module, 'photos'); ?>
-					<?php echo LAFormMaker::input($module, 'phone'); ?>
-					<?php echo LAFormMaker::input($module, 'email'); ?>
-					<?php echo LAFormMaker::input($module, 'address'); ?>
-					<?php echo LAFormMaker::input($module, 'links'); ?>
-					<?php echo LAFormMaker::input($module, 'review'); ?>
-					<?php echo LAFormMaker::input($module, 'author'); ?>
-					<?php echo LAFormMaker::input($module, 'anon'); ?>
+					<?php echo LAFormMaker::input($module, 'english'); ?>
+					<?php echo LAFormMaker::input($module, 'russian'); ?>
 					*/ ?>
 				</div>
 			</div>
@@ -94,11 +85,10 @@
 <script src="<?php echo e(asset('la-assets/plugins/datatables/datatables.min.js')); ?>"></script>
 <script>
 $(function () {
-	$("#review_container").DataTable({
-		order : [['0', 'desc']],
+	$("#example1").DataTable({
 		processing: true,
         serverSide: true,
-        ajax: "<?php echo e(url(config('laraadmin.adminRoute') . '/review_dt_ajax')); ?>",
+        ajax: "<?php echo e(url(config('laraadmin.adminRoute') . '/status_dt_ajax')); ?>",
 		language: {
 			lengthMenu: "_MENU_",
 			search: "_INPUT_",
@@ -108,7 +98,7 @@ $(function () {
 		columnDefs: [ { orderable: false, targets: [-1] }],
 		<?php endif; ?>
 	});
-	$("#review-add-form").validate({
+	$("#status-add-form").validate({
 		
 	});
 });
